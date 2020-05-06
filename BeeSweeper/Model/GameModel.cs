@@ -22,20 +22,32 @@ namespace BeeSweeper.model
 
         public readonly Field Field;
 
-        public bool GameOver { get; set; }
+        public Winner Winner { get; set; }
 
-        public void OpenCellsAround(Point pos)
+        public bool GameOver { get; private set; }
+
+        public void OpenCell(Point pos)
         {
             Field.OpenEmptyArea(pos);
-            GameOver = CheckForGameOver();
+            GameOver = CheckForGameOver(pos);
         }
 
-        private bool CheckForGameOver()
+        private bool CheckForGameOver(Point pos)
         {
-            var openedCells = Field.Map.Cast<Cell>()
-                .Count(c => c.CellType != CellType.Bee && c.CellAttr != CellAttr.None);
-            return Field.Map.Cast<Cell>().Any(c => c.CellType == CellType.Bee && c.CellAttr == CellAttr.Opened) ||
-                   openedCells == Field.Map.Length - Field.TotalBeesCount;
+            if (Field[pos].CellType == CellType.Bee)
+            {
+                Winner = Winner.Computer;
+                return true;
+            }
+
+            if (Field.Map.Cast<Cell>().Count(c => c.CellType != CellType.Bee && c.CellAttr != CellAttr.None) ==
+                Field.Map.Length - Field.TotalBeesCount)
+            {
+                Winner = Winner.Player;
+                return true;
+            }
+
+            return false;
         }
     }
 }
