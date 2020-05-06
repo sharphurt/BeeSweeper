@@ -1,0 +1,12 @@
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\BeeSweeper.exe.config
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\BeeSweeper.exe
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\BeeSweeper.pdb
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\nunit.framework.dll
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\nunit.framework.pdb
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\nunit.framework.xml
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.csprojAssemblyReference.cache
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.Properties.Resources.resources
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.csproj.GenerateResource.cache
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.csproj.CopyComplete
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.exe
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Debug\BeeSweeper.pdb
