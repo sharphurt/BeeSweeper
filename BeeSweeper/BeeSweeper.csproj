@@ -66,6 +66,7 @@
         <Compile Include="Model\Level.cs" />
         <Compile Include="Model\MapCreator.cs" />
         <Compile Include="Model\Util.cs" />
+        <Compile Include="Model\Winner.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="SapperTest\SapperTest.cs" />

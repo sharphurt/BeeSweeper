@@ -23,25 +23,14 @@ namespace UnitTestProject
 
 
         [Test]
-        public void GameOverOnEmptyFieldTest()
+        public void FinishGameOnEmptyFieldTest()
         {
             var model = new GameModel(new Level(new Size(3, 3), 0));
-            model.OpenCellsAround(new Point(0, 0));
+            model.OpenCell(new Point(0, 0));
             Assert.IsTrue(model.GameOver);
+            Assert.AreEqual(Winner.Player, model.Winner);
         }
-
-
-        [Test]
-        public void GameOverOnNonEmptyFieldTest()
-        {
-            var size = new Size(5, 5);
-            var model = new GameModel(new Level(size, 0));
-            var customMines = new[] {new Point(0, 0)};
-            model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
-            model.OpenCellsAround(customMines[0]);
-            Assert.IsTrue(model.GameOver);
-        }
-
+        
         [Test]
         public void FinishGameSuccessfullyTest()
         {
@@ -49,8 +38,9 @@ namespace UnitTestProject
             var model = new GameModel(new Level(size, 4));
             var customMines = new[] {new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
-            model.OpenCellsAround(new Point(0, 4));
+            model.OpenCell(new Point(0, 4));
             Assert.IsTrue(model.GameOver);
+            Assert.AreEqual(Winner.Player, model.Winner);
         }
         
         [Test]
@@ -60,8 +50,9 @@ namespace UnitTestProject
             var model = new GameModel(new Level(size, 4));
             var customMines = new[] {new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
-            model.OpenCellsAround(new Point(2, 2));
+            model.OpenCell(new Point(2, 2));
             Assert.IsTrue(model.GameOver);
+            Assert.AreEqual(Winner.Computer, model.Winner);
         }
 
         [Test]
@@ -97,7 +88,7 @@ namespace UnitTestProject
             var model = new GameModel(new Level(size, 0));
             var customMines = new[] {new Point(1, 0), new Point(1, 1), new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
-            model.OpenCellsAround(new Point(0, 2));
+            model.OpenCell(new Point(0, 2));
             var fieldCellsShouldBe = new Dictionary<Point, CellAttr>
             {
                 {new Point(0, 0), CellAttr.None},
@@ -124,7 +115,7 @@ namespace UnitTestProject
             var model = new GameModel(new Level(size, 0));
             var customMines = new[] {new Point(2, 0), new Point(2, 1), new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
-            model.OpenCellsAround(new Point(0, 2));
+            model.OpenCell(new Point(0, 2));
             var fieldCellsShouldBe = new Dictionary<Point, CellAttr>
             {
                 {new Point(0, 0), CellAttr.Opened},
