@@ -33,7 +33,7 @@
           <e p="Settings.settings" t="Include" />
         </e>
         <e p="SapperTest" t="Include">
-          <e p="SapperTest.cs" t="Include" />
+          <e p="BeeSweeperTests.cs" t="Include" />
         </e>
         <e p="Util" t="Include" />
       </e>
