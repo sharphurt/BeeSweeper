@@ -8,8 +8,6 @@
         <e p="App.config" t="Include" />
         <e p="BeeSweeper.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Form1.cs" t="Include" />
-        <e p="Form1.Designer.cs" t="Include" />
         <e p="model" t="Include">
           <e p="Cell.cs" t="Include" />
           <e p="CellAttributeEnum.cs" t="Include" />
@@ -32,10 +30,9 @@
           <e p="Settings.Designer.cs" t="Include" />
           <e p="Settings.settings" t="Include" />
         </e>
-        <e p="SapperTest" t="Include">
+        <e p="Tests" t="Include">
           <e p="BeeSweeperTests.cs" t="Include" />
         </e>
-        <e p="Util" t="Include" />
       </e>
       <e p="BeeSweeper.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />
