@@ -77,12 +77,12 @@ namespace BeeSweeper.Model
 
         public void OpenEmptyArea(Point pos)
         {
-            var visited = new List<Cell>();
+            var visited = new HashSet<Cell>();
             ExploreEmptyArea(pos, Direction.UpLeft, ref visited);
             ExploreEmptyArea(pos, Direction.UpRight, ref visited);
         }
 
-        private void ExploreEmptyArea(Point pos, Direction dir, ref List<Cell> visited)
+        private void ExploreEmptyArea(Point pos, Direction dir, ref HashSet<Cell> visited)
         {
             while (Util.IsLocationValid(pos, new Size(Width, Height)))
             {
