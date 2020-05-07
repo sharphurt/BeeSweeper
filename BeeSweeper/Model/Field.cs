@@ -84,8 +84,7 @@ namespace BeeSweeper.Model
 
         private void ExploreEmptyArea(Point pos, Direction dir, ref List<Cell> visited)
         {
-            var breakPoint = dir == Direction.UpLeft || dir == Direction.DownLeft ? -1 : Width + 1;
-            while (Util.IsLocationValid(pos, new Size(Width, Height)) && pos.X != breakPoint)
+            while (Util.IsLocationValid(pos, new Size(Width, Height)))
             {
                 var cell = Map[pos.X, pos.Y];
                 visited.Add(cell);
