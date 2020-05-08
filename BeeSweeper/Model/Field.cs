@@ -37,7 +37,7 @@ namespace BeeSweeper.Model
             return GetNeighboursAndDirections(pos).Count(neighbour => neighbour.Key.CellType == CellType.Bee);
         }
 
-        public Dictionary<Cell, Direction> GetNeighboursAndDirections(Point pos)
+        private Dictionary<Cell, Direction> GetNeighboursAndDirections(Point pos)
         {
             var neighbours = new Dictionary<Cell, Direction>();
             foreach (Direction direction in typeof(Direction).GetEnumValues())
@@ -58,7 +58,7 @@ namespace BeeSweeper.Model
                 : null;
         }
 
-        public void OpenNonEmptyNeighbours(Point pos)
+        private void OpenNonEmptyNeighbours(Point pos)
         {
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
@@ -68,18 +68,19 @@ namespace BeeSweeper.Model
             }
         }
 
-        public bool AreEmptyNeighboursExists(Point pos)
+        private bool AreEmptyNeighboursExists(Point pos)
         {
             return (from Direction direction in Enum.GetValues(typeof(Direction))
-                select GetNeighbour(pos, direction))
+                    select GetNeighbour(pos, direction))
                 .Any(neighbour => neighbour != null && neighbour.CellType == CellType.Empty);
         }
 
-        public void OpenEmptyArea(Point pos)
+        public void OpenEmptyArea(Point pos, out int collectedScore)
         {
             var visited = new HashSet<Cell>();
             ExploreEmptyArea(pos, Direction.UpLeft, ref visited);
             ExploreEmptyArea(pos, Direction.UpRight, ref visited);
+            collectedScore = visited.Where(cell => cell.CellType == CellType.Informer).Sum(cell => cell.BeesAround);
         }
 
         private void ExploreEmptyArea(Point pos, Direction dir, ref HashSet<Cell> visited)

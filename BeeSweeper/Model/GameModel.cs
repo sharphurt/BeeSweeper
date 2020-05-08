@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using BeeSweeper.Model;
@@ -22,16 +23,38 @@ namespace BeeSweeper.model
 
         public readonly Field Field;
 
-        public Winner Winner { get; set; }
+        public int Score { get; private set; }
+
+        public Winner Winner { get; private set; }
 
         public bool GameOver { get; private set; }
 
         public void OpenCell(Point pos)
         {
-            Field.OpenEmptyArea(pos);
+            Field.OpenEmptyArea(pos, out var collectedScore);
+            Score += collectedScore;
             GameOver = CheckForGameOver(pos);
         }
 
+        public void ChangeAttr(Point pos)
+        {
+            var cell = Field[pos];
+            if (cell.CellAttr == CellAttr.Opened)
+                return;
+            switch (cell.CellAttr)
+            {
+                case CellAttr.None:
+                    cell.CellAttr = CellAttr.Flagged;
+                    break;
+                case CellAttr.Flagged:
+                    cell.CellAttr = CellAttr.Questioned;
+                    break;
+                case CellAttr.Questioned:
+                    cell.CellAttr = CellAttr.None;
+                    break;
+            }
+        }
+        
         private bool CheckForGameOver(Point pos)
         {
             if (Field[pos].CellType == CellType.Bee)

@@ -12,7 +12,7 @@ namespace UnitTestProject
     [TestFixture]
     public class BeeSweeperTest
     {
-        private static Field CreateFieldWithCustomMines(Size size, Point[] mines)
+        private static Field CreateFieldWithCustomMines(Size size, IEnumerable<Point> mines)
         {
             var field = new Field(size, 0);
             foreach (var mine in mines)
@@ -20,7 +20,6 @@ namespace UnitTestProject
             MapCreator.CountNeighbours(field);
             return field;
         }
-
 
         [Test]
         public void FinishGameOnEmptyFieldTest()
@@ -30,7 +29,7 @@ namespace UnitTestProject
             Assert.IsTrue(model.GameOver);
             Assert.AreEqual(Winner.Player, model.Winner);
         }
-        
+
         [Test]
         public void FinishGameSuccessfullyTest()
         {
@@ -42,7 +41,7 @@ namespace UnitTestProject
             Assert.IsTrue(model.GameOver);
             Assert.AreEqual(Winner.Player, model.Winner);
         }
-        
+
         [Test]
         public void GameFailedTest()
         {
@@ -104,10 +103,10 @@ namespace UnitTestProject
             foreach (var cell in fieldCellsShouldBe)
             {
                 var cellLoc = cell.Key;
-                      Assert.AreEqual(cell.Value, model.Field[cellLoc.X, cellLoc.Y].CellAttr);
+                Assert.AreEqual(cell.Value, model.Field[cellLoc.X, cellLoc.Y].CellAttr);
             }
         }
-        
+
         [Test]
         public void OpenEmptyTerritoryTest2()
         {
@@ -133,6 +132,42 @@ namespace UnitTestProject
                 var cellLoc = cell.Key;
                 Assert.AreEqual(cell.Value, model.Field[cellLoc.X, cellLoc.Y].CellAttr);
             }
+        }
+        
+        [Test]
+        public void ChangeAttrTest()
+        {
+            var size = new Size(3, 3);
+            var model = new GameModel(new Level(size, 0));
+            var checkedAttrs = new [] { CellAttr.Flagged, CellAttr.Questioned, CellAttr.None };
+            var testedPoint = new Point(1, 1);
+            foreach (var attr in checkedAttrs)
+            {
+                model.ChangeAttr(testedPoint);
+                Assert.AreEqual(model.Field[testedPoint].CellAttr, attr);
+            }
+        }
+        
+        [Test]
+        public void ScoreTest1()
+        {
+            var size = new Size(5, 5);
+            var model = new GameModel(new Level(size, 0));
+            var customMines = new[] {new Point(2, 2)};
+            model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
+            model.OpenCell(new Point(0, 0));
+            Assert.AreEqual(6, model.Score);
+        }
+        
+        [Test]
+        public void ScoreTest2()
+        {
+            var size = new Size(5, 5);
+            var model = new GameModel(new Level(size, 0));
+            var customMines = new[] {new Point(2, 2), new Point(2, 3)};
+            model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
+            model.OpenCell(new Point(0, 0));
+            Assert.AreEqual(10, model.Score);
         }
     }
 }
