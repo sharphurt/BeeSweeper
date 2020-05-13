@@ -5,24 +5,24 @@ namespace BeeSweeperGame
 {
     public static class CellByLocation
     {
-        public static Cell GetCellByLocation(Point location, Field field)
+        public static Point GetCellLocationByCursorPosition(Point cursor, Field field)
         {
             for (var x = 0; x < field.Width; x++)
             for (var y = 0; y < field.Height; y++)
             {
-                var cell = field[x, y];
-                if (IsPointOnCell(location, new Point(x, y)))
-                    return cell;
+                var location = new Point(x, y);
+                if (IsPointOnCell(cursor, location))
+                    return location;
             }
 
-            return null;
+            return Point.Empty;
         }
 
-        private static bool IsPointOnCell(Point pos, Point cell)
+        private static bool IsPointOnCell(Point cursor, Point cellPos)
         {
-            var vertices = Cell.CalculateVertices(pos);
+            var vertices = Cell.CalculateVertices(cellPos);
             for (var i = 0; i < 6; i++)
-                if (!IsPointLeftToSegment(vertices[i], vertices[(i + 1) % 6], pos))
+                if (!IsPointLeftToSegment(vertices[i], vertices[(i + 1) % 6], cursor))
                     return false;
             return true;
         }

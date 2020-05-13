@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
 using BeeSweeper.model;
+using BeeSweeperGame;
 
 namespace BlindMan.View.Controls
 {
@@ -15,7 +16,11 @@ namespace BlindMan.View.Controls
         private static Color _emptyCellBrush = Color.SandyBrown;
         private static Color _unrevealedColor = Color.FromArgb(80, 80, 80);
         private static Color _revealedColor = Color.FromArgb(190, 190, 190);
-        private static Font _labelFont = new Font(new FontFamily("Courier New"), GameSettings.CellSide * 0.8f, FontStyle.Bold);
+        private Point _cellUnderCursorLocation = Point.Empty;
+
+        private static Font _labelFont =
+            new Font(new FontFamily("Courier New"), GameSettings.CellSide * 0.8f, FontStyle.Bold);
+
         private static Pen _outlinePen = new Pen(Color.FromArgb(127, 127, 127));
 
         private const int TileSize = 40;
@@ -24,14 +29,13 @@ namespace BlindMan.View.Controls
         {
             images.Load();
             gameModel.StartGame();
-            StartGameUpdaterTimer(gameModel);
             BackColor = Color.Black;
         }
 
         private void Draw(Graphics graphics)
         {
             var field = gameModel.Field;
-            
+
             for (var x = 0; x < field.Width; x++)
             {
                 for (var y = 0; y < field.Height; y++)
@@ -39,15 +43,23 @@ namespace BlindMan.View.Controls
                     var cell = gameModel.Field[x, y];
                     switch (cell.CellAttr)
                     {
-                        case CellAttr.Flagged: DrawImageCell(new Point(x, y), images.Flag, graphics); break;
-                        case CellAttr.Questioned: DrawImageCell(new Point(x, y), images.Question, graphics); break;
-                        case CellAttr.Opened: DrawOpenedCell(new Point(x, y), cell.CellType, graphics); break;
-                        default: DrawEmpty(new Point(x, y), graphics); break;
+                        case CellAttr.Flagged:
+                            DrawImageCell(new Point(x, y), images.Flag, graphics);
+                            break;
+                        case CellAttr.Questioned:
+                            DrawImageCell(new Point(x, y), images.Question, graphics);
+                            break;
+                        case CellAttr.Opened:
+                            DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
+                            break;
+                        default:
+                            DrawEmpty(new Point(x, y), graphics);
+                            break;
                     }
                 }
             }
         }
-        
+
         private void DrawEmpty(Point pos, Graphics graphics)
         {
             var vertices = Cell.CalculateVertices(pos);
@@ -81,12 +93,18 @@ namespace BlindMan.View.Controls
         {
             switch (cellType)
             {
-                case CellType.Informer: DrawInformer(pos, graphics); break;
-                case CellType.Bee: DrawImageCell(pos, images.Bee, graphics); break;
-                default: DrawEmpty(pos, graphics); break;
+                case CellType.Informer:
+                    DrawInformer(pos, graphics);
+                    break;
+                case CellType.Bee:
+                    DrawImageCell(pos, images.Bee, graphics);
+                    break;
+                default:
+                    DrawEmpty(pos, graphics);
+                    break;
             }
         }
-        
+
         private void StartGameUpdaterTimer(GameModel model)
         {
             updateTimer = new Timer();
@@ -100,9 +118,30 @@ namespace BlindMan.View.Controls
             Draw(e.Graphics);
         }
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            if (gameModel.GameOver || _cellUnderCursorLocation == Point.Empty) return;
+            Invalidate();
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.None && _cellUnderCursorLocation != Point.Empty)
+                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            Invalidate();
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            if (_cellUnderCursorLocation == Point.Empty) return;
+            if (gameModel.GameOver) return;
+            Invalidate();
+        }
+
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            
+            gameModel.OpenCell(_cellUnderCursorLocation);
         }
     }
 }
