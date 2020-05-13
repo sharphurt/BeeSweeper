@@ -1,9 +1,9 @@
-﻿﻿using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
- using BeeSweeper.Architecture;
+using BeeSweeper.Architecture;
 
-namespace BlindMan.View.Controls
+namespace BeeSweeper.View
 {
     public abstract class BaseControl : UserControl
     {

@@ -41,9 +41,9 @@ namespace BeeSweeper.Architecture
         public static Point CalculateImagePosition(Point pos)
         {
             var vertices = CalculateVertices(pos);
-            return new Point(vertices[4].X, vertices[4].Y) + new Size(GameSettings.CellRadius / 3, 0);
+            return new Point(vertices[4].X, vertices[4].Y) + new Size(GameSettings.CellRadius * 2 / 5, 0);
         }
-        
+
         public static Point CalculateTextPosition(Point pos)
         {
             var vertices = CalculateVertices(pos);

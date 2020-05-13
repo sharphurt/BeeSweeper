@@ -8,9 +8,6 @@ namespace BeeSweeper.Architecture
 {
     public class GameModel
     {
-
-
-        public event Action GameFieldChanged;
         public event Action<Winner> GameStateChanged;
 
         public GameModel(Level level)
@@ -67,8 +64,6 @@ namespace BeeSweeper.Architecture
                     cell.CellAttr = CellAttr.None;
                     break;
             }
-
-            GameFieldChanged?.Invoke();
         }
 
         private bool CheckForGameOver(Point pos)
@@ -79,7 +74,7 @@ namespace BeeSweeper.Architecture
                 return true;
             }
 
-            if (Field.Map.Cast<Cell>().Count(c => c.CellType != CellType.Bee && c.CellAttr != CellAttr.None) ==
+            if (Field.Map.Cast<Cell>().Count(c => c.CellType != CellType.Bee && c.CellAttr == CellAttr.Opened) ==
                 Field.Map.Length - Field.TotalBeesCount)
             {
                 Winner = Winner.Player;

@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
 using BeeSweeper.model;
+using BeeSweeper.View;
 using BeeSweeperGame;
 
 namespace BlindMan.View.Controls
@@ -77,7 +78,7 @@ namespace BlindMan.View.Controls
         {
             DrawEmpty(pos, backColor, graphics);
             var imagePos = Cell.CalculateImagePosition(pos);
-            var destRectangle = new Rectangle(imagePos.X, imagePos.Y, GameSettings.ImageSize, GameSettings.ImageSize);
+            var destRectangle = new Rectangle(imagePos.X, imagePos.Y, GameSettings.CellRadius, GameSettings.CellRadius);
             graphics.DrawImage(image, destRectangle, 0f, 0f, images.Flag.Width, images.Flag.Height, GraphicsUnit.Pixel);
         }
 
@@ -143,6 +144,11 @@ namespace BlindMan.View.Controls
                 gameModel.OpenCell(_cellUnderCursorLocation);
             else if (e.Button == MouseButtons.Right)
                 gameModel.ChangeAttr(_cellUnderCursorLocation);
+        }
+
+        protected override void OnLostFocus(EventArgs e)
+        {
+            Invalidate();
         }
     }
 }

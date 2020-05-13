@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using BeeSweeper;
 using BeeSweeper.Forms;
+using BeeSweeper.View;
 
 namespace BeeSweeper
 {

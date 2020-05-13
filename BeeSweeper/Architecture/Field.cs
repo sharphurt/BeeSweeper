@@ -78,6 +78,7 @@ namespace BeeSweeper.Architecture
         public void OpenEmptyArea(Point pos, out int collectedScore)
         {
             var visited = new HashSet<Cell>();
+            Map[pos.X, pos.Y].CellAttr = CellAttr.None;
             ExploreEmptyArea(pos, Direction.UpLeft, ref visited);
             ExploreEmptyArea(pos, Direction.UpRight, ref visited);
             collectedScore = visited.Where(cell => cell.CellType == CellType.Informer).Sum(cell => cell.BeesAround);
@@ -93,8 +94,9 @@ namespace BeeSweeper.Architecture
                 if (cell.CellAttr == CellAttr.None)
                     cell.CellAttr = CellAttr.Opened;
 
-                if (cell.CellType == CellType.Informer || cell.CellAttr == CellAttr.Flagged ||
-                    cell.CellAttr == CellAttr.Questioned)
+                if (cell.CellType == CellType.Informer
+                    || cell.CellAttr == CellAttr.Flagged
+                    || cell.CellAttr == CellAttr.Questioned)
                     break;
 
                 OpenNonEmptyNeighbours(pos);

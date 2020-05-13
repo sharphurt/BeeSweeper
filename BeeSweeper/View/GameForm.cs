@@ -1,10 +1,9 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BlindMan.View.Controls;
 
-namespace BeeSweeper.Forms
+namespace BeeSweeper.View
 {
     public class GameForm : Form
     {
@@ -20,9 +19,14 @@ namespace BeeSweeper.Forms
             var formHeight = Cell.CalculateVertices(new Point(0, _gameModel.Level.Size.Height - 1))[0].Y;
             ClientSize = new Size(formWidth, formHeight);
             MaximizeBox = false;
-            FormBorderStyle = FormBorderStyle.FixedSingle;    
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             SetControl(new GameControl(_gameModel));
+            _gameModel.GameStateChanged += OnGameStateChanged;
+        }
 
+        private void OnGameStateChanged(Winner winner)
+        {
+            MessageBox.Show("Game over. Winner: " + winner, "Game over", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
         private void SetControl(BaseControl newControl)
@@ -32,6 +36,5 @@ namespace BeeSweeper.Forms
             Controls.Clear();
             Controls.Add(newControl);
         }
-
     }
 }
