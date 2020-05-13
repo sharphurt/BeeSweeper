@@ -19,7 +19,7 @@ namespace BlindMan.View.Controls
         private Point _cellUnderCursorLocation = Point.Empty;
 
         private static Font _labelFont =
-            new Font(new FontFamily("Courier New"), GameSettings.CellSide * 0.8f, FontStyle.Bold);
+            new Font(new FontFamily("Arial"), GameSettings.CellRadius * 0.6f, FontStyle.Bold);
 
         private static Pen _outlinePen = new Pen(Color.FromArgb(127, 127, 127));
 
@@ -29,10 +29,10 @@ namespace BlindMan.View.Controls
         {
             images.Load();
             gameModel.StartGame();
-            BackColor = Color.Black;
+            BackColor = Color.Gray;
         }
 
-        private void Draw(Graphics graphics)
+        private void DrawGrid(Graphics graphics)
         {
             var field = gameModel.Field;
 
@@ -52,30 +52,30 @@ namespace BlindMan.View.Controls
                         case CellAttr.Opened:
                             DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
                             break;
-                        default:
-                            DrawEmpty(new Point(x, y), graphics);
+                        case CellAttr.None:
+                            DrawEmpty(new Point(x, y), _unrevealedColor, graphics);
                             break;
                     }
                 }
             }
         }
 
-        private void DrawEmpty(Point pos, Graphics graphics)
+        private void DrawEmpty(Point pos, Color color, Graphics graphics)
         {
             var vertices = Cell.CalculateVertices(pos);
-            graphics.FillPolygon(new SolidBrush(_unrevealedColor), vertices);
+            graphics.FillPolygon(new SolidBrush(color), vertices);
             graphics.DrawPolygon(_outlinePen, vertices);
         }
 
-        // private static void DrawAim(Graphics graphics)
-        // {
-        //     if (MouseHandler.CellUnderCursor != null && MouseHandler.MousePressed)
-        //         graphics.DrawPolygon(new Pen(GameProperties.CellPathColor, 2f), MouseHandler.CellUnderCursor.Vertices);
-        // }
+        private void DrawAim(Graphics graphics)
+        {
+            if (_cellUnderCursorLocation != Point.Empty)
+                graphics.DrawPolygon(new Pen(Color.Aqua, 2f), Cell.CalculateVertices(_cellUnderCursorLocation));
+        }
 
         private void DrawImageCell(Point pos, Image image, Graphics graphics)
         {
-            DrawEmpty(pos, graphics);
+            DrawEmpty(pos, _revealedColor, graphics);
             var imagePos = Cell.CalculateImagePosition(pos);
             var destRectangle = new Rectangle(imagePos.X, imagePos.Y, GameSettings.ImageSize, GameSettings.ImageSize);
             graphics.DrawImage(image, destRectangle, 0f, 0f, images.Flag.Width, images.Flag.Height, GraphicsUnit.Pixel);
@@ -83,10 +83,10 @@ namespace BlindMan.View.Controls
 
         private void DrawInformer(Point pos, Graphics graphics)
         {
-            DrawEmpty(pos, graphics);
+            DrawEmpty(pos, _revealedColor, graphics);
             var cell = gameModel.Field[pos].BeesAround;
-            var imagePos = Cell.CalculateImagePosition(pos);
-            graphics.DrawString(cell.ToString(), _labelFont, new SolidBrush(Color.Black), imagePos.X, imagePos.Y);
+            var textPos = Cell.CalculateTextPosition(pos);
+            graphics.DrawString(cell.ToString(), _labelFont, new SolidBrush(Color.Black), textPos.X, textPos.Y);
         }
 
         private void DrawOpenedCell(Point pos, CellType cellType, Graphics graphics)
@@ -99,49 +99,70 @@ namespace BlindMan.View.Controls
                 case CellType.Bee:
                     DrawImageCell(pos, images.Bee, graphics);
                     break;
-                default:
-                    DrawEmpty(pos, graphics);
+                case CellType.Empty:
+                    DrawEmpty(pos, _revealedColor, graphics);
                     break;
             }
         }
 
-        private void StartGameUpdaterTimer(GameModel model)
-        {
-            updateTimer = new Timer();
-            updateTimer.Interval = 1000 / GameSettings.TicksPerSecond;
-            updateTimer.Tick += (sender, args) => Invalidate();
-            updateTimer.Start();
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
-            Draw(e.Graphics);
+            DrawGrid(e.Graphics);
+            DrawAim(e.Graphics);
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
-            if (gameModel.GameOver || _cellUnderCursorLocation == Point.Empty) return;
+            _cellUnderCursorLocation = GetCellLocationByCursorPosition(e.Location, gameModel.Field);
             Invalidate();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.Button != MouseButtons.None && _cellUnderCursorLocation != Point.Empty)
-                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+                _cellUnderCursorLocation = GetCellLocationByCursorPosition(e.Location, gameModel.Field);
             Invalidate();
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (_cellUnderCursorLocation == Point.Empty) return;
-            if (gameModel.GameOver) return;
+            _cellUnderCursorLocation = Point.Empty;
             Invalidate();
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
+            if (gameModel.GameOver)
+                return;
             gameModel.OpenCell(_cellUnderCursorLocation);
+        }
+
+        public Point GetCellLocationByCursorPosition(Point cursor, Field field)
+        {
+            for (var x = 0; x < field.Width; x++)
+            for (var y = 0; y < field.Height; y++)
+            {
+                var location = new Point(x, y);
+                if (IsPointOnCell(cursor, location))
+                    return location;
+            }
+
+            return Point.Empty;
+        }
+
+        private bool IsPointOnCell(Point cursor, Point cellPos)
+        {
+            var vertices = Cell.CalculateVertices(cellPos);
+            for (var i = 0; i < 6; i++)
+                if (IsPointLeftToSegment(vertices[i], vertices[(i + 1) % 6], cursor))
+                    return false;
+            return true;
+        }
+
+        private bool IsPointLeftToSegment(Point segmentBegin, Point segmentEnd, Point point)
+        {
+            return (segmentEnd.X - segmentBegin.X) * (point.Y - segmentBegin.Y)
+                - (segmentEnd.Y - segmentBegin.Y) * (point.X - segmentBegin.X) >= 0;
         }
     }
 }

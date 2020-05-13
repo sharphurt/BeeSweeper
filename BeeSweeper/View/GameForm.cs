@@ -12,14 +12,17 @@ namespace BeeSweeper.Forms
 
         public GameForm()
         {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint,
+                true);
+            DoubleBuffered = true;
             Text = GameSettings.GameName;
             var formHeight = _gameModel.Level.Size.Height * GameSettings.CellHeight -
-                             (_gameModel.Level.Size.Height - 1) * (int) Math.Floor(GameSettings.CellSide * 0.5);
-            var formWidth = GameSettings.CellWidth * _gameModel.Level.Size.Width + GameSettings.CellWidth / 2;
+                             (_gameModel.Level.Size.Height - 1) * (int) Math.Floor(GameSettings.CellRadius * 0.5);
+            var formWidth = GameSettings.CellWidth * _gameModel.Level.Size.Width;
             Size = new Size(formWidth, formHeight);
             SetControl(new GameControl(_gameModel));
         }
-        
+
         private void SetControl(BaseControl newControl)
         {
             foreach (Control control in Controls)
@@ -27,7 +30,6 @@ namespace BeeSweeper.Forms
             Controls.Clear();
             Controls.Add(newControl);
         }
-        
-        
+
     }
 }

@@ -5,10 +5,10 @@ namespace BeeSweeper.Architecture
     public static class GameSettings
     {
         public const string GameName = "BeeSweeper";
-        public const int CellSide = 30;
-        public static readonly int CellWidth = (int) Math.Sqrt(2 * CellSide * CellSide - 2 * CellSide * CellSide * -0.5);
-        public static readonly int CellHeight = (int) (CellSide + 2 * Math.Sqrt(CellSide * CellSide - Math.Pow(CellWidth * 0.5, 2)));
-        public const int ImageSize = (int) (CellSide * 1.3);
+        public const int CellRadius = 45;
+        public static readonly int CellWidth = (int) Math.Sqrt(3 * CellRadius * CellRadius);
+        public static readonly int CellHeight = (int) (CellRadius + 2 * Math.Sqrt(CellRadius * CellRadius - Math.Pow(CellWidth * 0.5, 2)));
+        public const int ImageSize = CellRadius;
         public const int TicksPerSecond = 60;
     }
 }

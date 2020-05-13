@@ -30,12 +30,16 @@ namespace BeeSweeper.Architecture
 
         public void OpenCell(Point pos)
         {
-            Field.OpenEmptyArea(pos, out var collectedScore);
+            if (GameOver) return;
+                Field.OpenEmptyArea(pos, out var collectedScore);
             Score += collectedScore;
-            GameFieldChanged?.Invoke();
             GameOver = CheckForGameOver(pos);
             if (GameOver)
+            {
                 GameStateChanged?.Invoke(Winner);
+                foreach (var cell in Field.Map)
+                    cell.CellAttr = CellAttr.Opened;
+            }
         }
 
         public void StartGame()

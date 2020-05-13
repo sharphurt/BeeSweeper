@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using BeeSweeper.model;
 
@@ -10,7 +11,6 @@ namespace BeeSweeper.Architecture
         public CellAttr CellAttr { get; set; }
         public int BeesAround { get; set; }
 
-
         public override string ToString()
         {
             return BeesAround.ToString();
@@ -18,36 +18,36 @@ namespace BeeSweeper.Architecture
 
         public static Point[] CalculateVertices(Point pos)
         {
-            var xCoordinate = pos.X * GameSettings.CellWidth;
-            xCoordinate += pos.Y % 2 == 1 ? GameSettings.CellWidth / 2 : 0;
-            var yCoordinate = pos.Y == 0 ? (int) Math.Floor(GameSettings.CellSide * 0.5)
-                : pos.Y * GameSettings.CellHeight - (pos.Y - 1) * (int) Math.Floor(GameSettings.CellSide * 0.5);
+            var vertices = new Point[6];
+            var normal =
+                (int) Math.Sqrt(Math.Pow(GameSettings.CellRadius, 2) - Math.Pow(GameSettings.CellRadius * 0.5, 2));
+            var centre = new Point(
+                normal + pos.X * normal * 2 + pos.Y % 2 * normal,
+                GameSettings.CellRadius + pos.Y * (GameSettings.CellRadius * 3 / 2)
+            );
 
-            Point[] vertices =
+            for (var i = 0; i < 6; i++)
             {
-                new Point(xCoordinate, yCoordinate),
-                new Point(
-                    xCoordinate + GameSettings.CellWidth / 2 + (pos.Y % 2 == 0 ? 0 : 1),
-                    yCoordinate - (int) Math.Floor(GameSettings.CellSide * 0.5) - 1
-                    ),
-                new Point(xCoordinate + GameSettings.CellWidth, yCoordinate),
-                new Point(xCoordinate + GameSettings.CellWidth, yCoordinate + GameSettings.CellSide + 2),
-                new Point(
-                    xCoordinate + GameSettings.CellWidth / 2,
-                    yCoordinate - (int) Math.Floor(GameSettings.CellSide * 0.5) + GameSettings.CellHeight
-                    ),
-                new Point(xCoordinate, yCoordinate + GameSettings.CellSide + 1)
-            };
+                var vertex = new Point(
+                    (int) (centre.X + GameSettings.CellRadius * Math.Sin(i * Math.PI / 3)),
+                    (int) (centre.Y + GameSettings.CellRadius * Math.Cos(i * Math.PI / 3))
+                );
+                vertices[i] = vertex;
+            }
+
             return vertices;
         }
 
         public static Point CalculateImagePosition(Point pos)
         {
             var vertices = CalculateVertices(pos);
-            return new Point(
-                vertices[0].X + GameSettings.CellWidth / 2 - GameSettings.ImageSize / 2,
-                vertices[0].Y + GameSettings.CellHeight / 4 - GameSettings.ImageSize / 2
-                );
+            return new Point(vertices[4].X, vertices[4].Y) + new Size(GameSettings.CellRadius / 3, 0);
+        }
+        
+        public static Point CalculateTextPosition(Point pos)
+        {
+            var vertices = CalculateVertices(pos);
+            return new Point(vertices[4].X, vertices[4].Y) + new Size(GameSettings.CellRadius / 2, 0);
         }
     }
 }
