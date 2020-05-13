@@ -71,6 +71,7 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Tests\BeeSweeperTests.cs" />
         <Compile Include="View\Images.cs" />
+        <Compile Include="View\Palette.cs" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>

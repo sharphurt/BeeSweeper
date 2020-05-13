@@ -1,7 +1,7 @@
-﻿﻿using System.Drawing;
- using BeeSweeper.Architecture;
+﻿using System.Drawing;
+using BeeSweeper.Architecture;
 
-namespace BeeSweeperGame
+namespace BeeSweeper.View
 {
     public static class CellByLocation
     {

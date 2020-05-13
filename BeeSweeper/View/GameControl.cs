@@ -5,7 +5,6 @@ using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
 using BeeSweeper.model;
 using BeeSweeper.View;
-using BeeSweeperGame;
 
 namespace BlindMan.View.Controls
 {
@@ -13,24 +12,14 @@ namespace BlindMan.View.Controls
     {
         Images images = new Images();
         private Timer updateTimer;
-
-        private static Color _emptyCellBrush = Color.SandyBrown;
-        private static Color _unrevealedColor = Color.FromArgb(80, 80, 80);
-        private static Color _revealedColor = Color.FromArgb(190, 190, 190);
-        private static Color _formBackground = Color.FromArgb(38, 38, 38);
-
         private Point _cellUnderCursorLocation = Point.Empty;
 
-        private static Font _labelFont =
-            new Font(new FontFamily("Arial"), GameSettings.CellRadius * 0.6f, FontStyle.Bold);
-
-        private static Pen _outlinePen = new Pen(Color.FromArgb(127, 127, 127));
 
         public GameControl(GameModel gameModel) : base(gameModel)
         {
             images.Load();
             gameModel.StartGame();
-            BackColor = _formBackground;
+            BackColor = Palette.Colors.FormBackground;
         }
 
         private void DrawGrid(Graphics graphics)
@@ -45,16 +34,16 @@ namespace BlindMan.View.Controls
                     switch (cell.CellAttr)
                     {
                         case CellAttr.Flagged:
-                            DrawImage(new Point(x, y), images.Flag, _unrevealedColor, graphics);
+                            DrawImage(new Point(x, y), images.Flag, Palette.Colors.UnrevealedColor, graphics);
                             break;
                         case CellAttr.Questioned:
-                            DrawImage(new Point(x, y), images.Question, _unrevealedColor, graphics);
+                            DrawImage(new Point(x, y), images.Question, Palette.Colors.UnrevealedColor, graphics);
                             break;
                         case CellAttr.Opened:
                             DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
                             break;
                         case CellAttr.None:
-                            DrawEmpty(new Point(x, y), _unrevealedColor, graphics);
+                            DrawEmpty(new Point(x, y), Palette.Colors.UnrevealedColor, graphics);
                             break;
                     }
                 }
@@ -65,7 +54,7 @@ namespace BlindMan.View.Controls
         {
             var vertices = Cell.CalculateVertices(pos);
             graphics.FillPolygon(new SolidBrush(color), vertices);
-            graphics.DrawPolygon(_outlinePen, vertices);
+            graphics.DrawPolygon(Palette.Pens.OutlinePen, vertices);
         }
 
         private void DrawAim(Graphics graphics)
@@ -84,10 +73,11 @@ namespace BlindMan.View.Controls
 
         private void DrawInformer(Point pos, Graphics graphics)
         {
-            DrawEmpty(pos, _revealedColor, graphics);
+            DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);
             var cell = gameModel.Field[pos].BeesAround;
             var textPos = Cell.CalculateTextPosition(pos);
-            graphics.DrawString(cell.ToString(), _labelFont, new SolidBrush(Color.Black), textPos.X, textPos.Y);
+            graphics.DrawString(cell.ToString(), Palette.Fonts.LabelFont,
+                new SolidBrush(Palette.Colors.ColorsByNeighbouringBees[cell]), textPos.X, textPos.Y);
         }
 
         private void DrawOpenedCell(Point pos, CellType cellType, Graphics graphics)
@@ -98,10 +88,10 @@ namespace BlindMan.View.Controls
                     DrawInformer(pos, graphics);
                     break;
                 case CellType.Bee:
-                    DrawImage(pos, images.Bee, _revealedColor, graphics);
+                    DrawImage(pos, images.Bee, Palette.Colors.RevealedColor, graphics);
                     break;
                 case CellType.Empty:
-                    DrawEmpty(pos, _revealedColor, graphics);
+                    DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);
                     break;
             }
         }

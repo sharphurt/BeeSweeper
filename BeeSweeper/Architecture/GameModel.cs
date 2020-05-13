@@ -9,6 +9,7 @@ namespace BeeSweeper.Architecture
     public class GameModel
     {
         public event Action<Winner> GameStateChanged;
+        private bool _isFirstClick = true;
 
         public GameModel(Level level)
         {
@@ -16,7 +17,7 @@ namespace BeeSweeper.Architecture
         }
 
         public readonly Level Level;
-        
+
         public Field Field;
 
         public int Score { get; private set; }
@@ -27,15 +28,20 @@ namespace BeeSweeper.Architecture
 
         public void OpenCell(Point pos)
         {
-            if (GameOver) return;
-                Field.OpenEmptyArea(pos, out var collectedScore);
+            if (GameOver)
+                return;
+            if (_isFirstClick && Field[pos].CellType == CellType.Bee)
+                while (Field[pos].CellType == CellType.Bee)
+                    Field = MapCreator.CreateMap(Level);
+            _isFirstClick = false;
+            Field.OpenEmptyArea(pos, out var collectedScore);
             Score += collectedScore;
             GameOver = CheckForGameOver(pos);
             if (GameOver)
             {
+                foreach (var cell in Field.Map)
+                    cell.CellAttr = CellAttr.Opened;    
                 GameStateChanged?.Invoke(Winner);
-                foreach (var cell in Field.Map.Cast<Cell>().Where(c => c.CellType == CellType.Bee))
-                    cell.CellAttr = CellAttr.Opened;
             }
         }
 
