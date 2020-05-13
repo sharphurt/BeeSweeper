@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using BeeSweeper.model;
@@ -7,19 +8,19 @@ namespace BeeSweeper.Architecture
 {
     public class GameModel
     {
-        private static readonly Dictionary<string, Level> Levels = new Dictionary<string, Level>
-        {
-            {"Easy", new Level(new Size(10, 10), 15)},
-            {"Middle", new Level(new Size(10, 10), 20)},
-            {"Hard", new Level(new Size(10, 10), 30)}
-        };
+
+
+        public event Action GameFieldChanged;
+        public event Action<Winner> GameStateChanged;
 
         public GameModel(Level level)
         {
-            Field = MapCreator.CreateMap(level);
+            Level = level;
         }
 
-        public readonly Field Field;
+        public readonly Level Level;
+        
+        public Field Field;
 
         public int Score { get; private set; }
 
@@ -31,7 +32,18 @@ namespace BeeSweeper.Architecture
         {
             Field.OpenEmptyArea(pos, out var collectedScore);
             Score += collectedScore;
+            GameFieldChanged?.Invoke();
             GameOver = CheckForGameOver(pos);
+            if (GameOver)
+                GameStateChanged?.Invoke(Winner);
+        }
+
+        public void StartGame()
+        {
+            Field = MapCreator.CreateMap(Level);
+            Winner = Winner.Nobody;
+            Score = 0;
+            GameOver = false;
         }
 
         public void ChangeAttr(Point pos)
@@ -51,8 +63,10 @@ namespace BeeSweeper.Architecture
                     cell.CellAttr = CellAttr.None;
                     break;
             }
+
+            GameFieldChanged?.Invoke();
         }
-        
+
         private bool CheckForGameOver(Point pos)
         {
             if (Field[pos].CellType == CellType.Bee)

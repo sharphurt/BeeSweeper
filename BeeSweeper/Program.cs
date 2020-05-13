@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BeeSweeper;
+using BeeSweeper.Forms;
 
 namespace BeeSweeper
 {
@@ -14,7 +15,7 @@ namespace BeeSweeper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-         //   Application.Run(new Form1());
+            Application.Run(new GameForm());
         }
     }
 }

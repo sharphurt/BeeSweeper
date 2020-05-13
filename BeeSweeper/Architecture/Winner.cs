@@ -2,6 +2,6 @@
 {
     public enum Winner
     {
-        Computer, Player
+        Computer, Player, Nobody
     }
 }

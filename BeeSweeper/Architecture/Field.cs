@@ -29,7 +29,7 @@ namespace BeeSweeper.Architecture
 
         public Cell this[int x, int y] => Map[x, y];
         public Cell this[Point pos] => Map[pos.X, pos.Y];
-
+        
         public int CountNeighbouringBees(Point pos)
         {
             if (Map[pos.X, pos.Y].CellType == CellType.Bee)

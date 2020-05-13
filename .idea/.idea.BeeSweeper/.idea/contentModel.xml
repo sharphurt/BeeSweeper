@@ -15,15 +15,38 @@
           <e p="GameModel.cs" t="Include" />
           <e p="GameSettings.cs" t="Include" />
           <e p="Level.cs" t="Include" />
+          <e p="Levels.cs" t="Include" />
           <e p="MapCreator.cs" t="Include" />
           <e p="Util.cs" t="Include" />
           <e p="Winner.cs" t="Include" />
         </e>
+        <e p="Assets" t="Include">
+          <e p="Textures" t="Include">
+            <e p="bee.png" t="Include" />
+            <e p="Digits" t="Include">
+              <e p="0.png" t="Include" />
+              <e p="1.png" t="Include" />
+              <e p="2.png" t="Include" />
+              <e p="3.png" t="Include" />
+              <e p="4.png" t="Include" />
+              <e p="5.png" t="Include" />
+              <e p="6.png" t="Include" />
+              <e p="7.png" t="Include" />
+              <e p="8.png" t="Include" />
+              <e p="9.png" t="Include" />
+              <e p="semicolon.png" t="Include" />
+              <e p="semicolon_.png" t="Include" />
+            </e>
+            <e p="flag.png" t="Include" />
+            <e p="gameover.png" t="Include" />
+            <e p="luck.png" t="Include" />
+            <e p="please.png" t="Include" />
+            <e p="question.png" t="Include" />
+            <e p="win.png" t="Include" />
+          </e>
+        </e>
         <e p="BeeSweeper.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Forms" t="Include">
-          <e p="GameForm.cs" t="Include" />
-        </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Program.cs" t="Include" />
@@ -36,6 +59,13 @@
         </e>
         <e p="Tests" t="Include">
           <e p="BeeSweeperTests.cs" t="Include" />
+        </e>
+        <e p="View" t="Include">
+          <e p="BaseControl.cs" t="Include" />
+          <e p="CellByLocation.cs" t="Include" />
+          <e p="GameControl.cs" t="Include" />
+          <e p="GameForm.cs" t="Include" />
+          <e p="Images.cs" t="Include" />
         </e>
       </e>
       <e p="BeeSweeper.sln" t="IncludeFlat" />
