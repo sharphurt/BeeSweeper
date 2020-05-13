@@ -16,6 +16,8 @@ namespace BlindMan.View.Controls
         private static Color _emptyCellBrush = Color.SandyBrown;
         private static Color _unrevealedColor = Color.FromArgb(80, 80, 80);
         private static Color _revealedColor = Color.FromArgb(190, 190, 190);
+        private static Color _formBackground = Color.FromArgb(38, 38, 38);
+
         private Point _cellUnderCursorLocation = Point.Empty;
 
         private static Font _labelFont =
@@ -23,13 +25,11 @@ namespace BlindMan.View.Controls
 
         private static Pen _outlinePen = new Pen(Color.FromArgb(127, 127, 127));
 
-        private const int TileSize = 40;
-
         public GameControl(GameModel gameModel) : base(gameModel)
         {
             images.Load();
             gameModel.StartGame();
-            BackColor = Color.Gray;
+            BackColor = _formBackground;
         }
 
         private void DrawGrid(Graphics graphics)
@@ -44,10 +44,10 @@ namespace BlindMan.View.Controls
                     switch (cell.CellAttr)
                     {
                         case CellAttr.Flagged:
-                            DrawImageCell(new Point(x, y), images.Flag, graphics);
+                            DrawImage(new Point(x, y), images.Flag, _unrevealedColor, graphics);
                             break;
                         case CellAttr.Questioned:
-                            DrawImageCell(new Point(x, y), images.Question, graphics);
+                            DrawImage(new Point(x, y), images.Question, _unrevealedColor, graphics);
                             break;
                         case CellAttr.Opened:
                             DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
@@ -70,12 +70,12 @@ namespace BlindMan.View.Controls
         private void DrawAim(Graphics graphics)
         {
             if (_cellUnderCursorLocation != Point.Empty)
-                graphics.DrawPolygon(new Pen(Color.Aqua, 2f), Cell.CalculateVertices(_cellUnderCursorLocation));
+                graphics.DrawPolygon(new Pen(Color.DimGray, 3f), Cell.CalculateVertices(_cellUnderCursorLocation));
         }
 
-        private void DrawImageCell(Point pos, Image image, Graphics graphics)
+        private void DrawImage(Point pos, Image image, Color backColor, Graphics graphics)
         {
-            DrawEmpty(pos, _revealedColor, graphics);
+            DrawEmpty(pos, backColor, graphics);
             var imagePos = Cell.CalculateImagePosition(pos);
             var destRectangle = new Rectangle(imagePos.X, imagePos.Y, GameSettings.ImageSize, GameSettings.ImageSize);
             graphics.DrawImage(image, destRectangle, 0f, 0f, images.Flag.Width, images.Flag.Height, GraphicsUnit.Pixel);
@@ -97,7 +97,7 @@ namespace BlindMan.View.Controls
                     DrawInformer(pos, graphics);
                     break;
                 case CellType.Bee:
-                    DrawImageCell(pos, images.Bee, graphics);
+                    DrawImage(pos, images.Bee, _revealedColor, graphics);
                     break;
                 case CellType.Empty:
                     DrawEmpty(pos, _revealedColor, graphics);
@@ -113,14 +113,19 @@ namespace BlindMan.View.Controls
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            _cellUnderCursorLocation = GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            if (!gameModel.GameOver)
+                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            else
+                _cellUnderCursorLocation = Point.Empty;
             Invalidate();
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.None && _cellUnderCursorLocation != Point.Empty)
-                _cellUnderCursorLocation = GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            if (e.Button != MouseButtons.None && _cellUnderCursorLocation != Point.Empty && !gameModel.GameOver)
+                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            else
+                _cellUnderCursorLocation = Point.Empty;
             Invalidate();
         }
 
@@ -134,35 +139,10 @@ namespace BlindMan.View.Controls
         {
             if (gameModel.GameOver)
                 return;
-            gameModel.OpenCell(_cellUnderCursorLocation);
-        }
-
-        public Point GetCellLocationByCursorPosition(Point cursor, Field field)
-        {
-            for (var x = 0; x < field.Width; x++)
-            for (var y = 0; y < field.Height; y++)
-            {
-                var location = new Point(x, y);
-                if (IsPointOnCell(cursor, location))
-                    return location;
-            }
-
-            return Point.Empty;
-        }
-
-        private bool IsPointOnCell(Point cursor, Point cellPos)
-        {
-            var vertices = Cell.CalculateVertices(cellPos);
-            for (var i = 0; i < 6; i++)
-                if (IsPointLeftToSegment(vertices[i], vertices[(i + 1) % 6], cursor))
-                    return false;
-            return true;
-        }
-
-        private bool IsPointLeftToSegment(Point segmentBegin, Point segmentEnd, Point point)
-        {
-            return (segmentEnd.X - segmentBegin.X) * (point.Y - segmentBegin.Y)
-                - (segmentEnd.Y - segmentBegin.Y) * (point.X - segmentBegin.X) >= 0;
+            if (e.Button == MouseButtons.Left)
+                gameModel.OpenCell(_cellUnderCursorLocation);
+            else if (e.Button == MouseButtons.Right)
+                gameModel.ChangeAttr(_cellUnderCursorLocation);
         }
     }
 }

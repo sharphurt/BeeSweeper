@@ -16,11 +16,13 @@ namespace BeeSweeper.Forms
                 true);
             DoubleBuffered = true;
             Text = GameSettings.GameName;
-            var formHeight = _gameModel.Level.Size.Height * GameSettings.CellHeight -
-                             (_gameModel.Level.Size.Height - 1) * (int) Math.Floor(GameSettings.CellRadius * 0.5);
-            var formWidth = GameSettings.CellWidth * _gameModel.Level.Size.Width;
-            Size = new Size(formWidth, formHeight);
+            var formWidth = Cell.CalculateVertices(new Point(_gameModel.Level.Size.Width - 1, 1))[1].X;
+            var formHeight = Cell.CalculateVertices(new Point(0, _gameModel.Level.Size.Height - 1))[0].Y;
+            ClientSize = new Size(formWidth, formHeight);
+            MaximizeBox = false;
+            FormBorderStyle = FormBorderStyle.FixedSingle;    
             SetControl(new GameControl(_gameModel));
+
         }
 
         private void SetControl(BaseControl newControl)

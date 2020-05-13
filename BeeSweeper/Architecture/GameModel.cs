@@ -37,7 +37,7 @@ namespace BeeSweeper.Architecture
             if (GameOver)
             {
                 GameStateChanged?.Invoke(Winner);
-                foreach (var cell in Field.Map)
+                foreach (var cell in Field.Map.Cast<Cell>().Where(c => c.CellType == CellType.Bee))
                     cell.CellAttr = CellAttr.Opened;
             }
         }
