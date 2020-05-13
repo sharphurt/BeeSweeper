@@ -1,4 +1,4 @@
-﻿namespace BeeSweeper.Model
+﻿namespace BeeSweeper.Architecture
 {
     public enum Winner
     {

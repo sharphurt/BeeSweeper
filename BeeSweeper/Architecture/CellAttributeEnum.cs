@@ -1,4 +1,4 @@
-﻿namespace BeeSweeper.model
+﻿namespace BeeSweeper.Architecture
 {
     public enum CellAttr
     {

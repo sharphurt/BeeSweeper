@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BeeSweeper.Model;
+using BeeSweeper.model;
 
-namespace BeeSweeper.model
+namespace BeeSweeper.Architecture
 {
     public class GameModel
     {

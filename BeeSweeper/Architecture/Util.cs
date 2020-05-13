@@ -1,7 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using BeeSweeper.model;
 
-namespace BeeSweeper.model
+namespace BeeSweeper.Architecture
 {
     public static class Util
     {

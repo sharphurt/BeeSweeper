@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using BeeSweeper.model;
 
-namespace BeeSweeper.Model
+namespace BeeSweeper.Architecture
 {
     public static class MapCreator
     {

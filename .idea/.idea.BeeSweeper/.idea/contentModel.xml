@@ -6,19 +6,23 @@
     <e p="C:\Users\sharphurt\BeeSweeper" t="IncludeFlat">
       <e p="BeeSweeper" t="IncludeRecursive">
         <e p="App.config" t="Include" />
-        <e p="BeeSweeper.csproj" t="IncludeRecursive" />
-        <e p="bin" t="ExcludeRecursive" />
-        <e p="model" t="Include">
+        <e p="Architecture" t="Include">
           <e p="Cell.cs" t="Include" />
           <e p="CellAttributeEnum.cs" t="Include" />
           <e p="CellTypeEnum.cs" t="Include" />
           <e p="DirectionEnum.cs" t="Include" />
           <e p="Field.cs" t="Include" />
           <e p="GameModel.cs" t="Include" />
+          <e p="GameSettings.cs" t="Include" />
           <e p="Level.cs" t="Include" />
           <e p="MapCreator.cs" t="Include" />
           <e p="Util.cs" t="Include" />
           <e p="Winner.cs" t="Include" />
+        </e>
+        <e p="BeeSweeper.csproj" t="IncludeRecursive" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Forms" t="Include">
+          <e p="GameForm.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />

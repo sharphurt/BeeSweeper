@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using BeeSweeper;
-using NUnit.Framework;
+using BeeSweeper.Architecture;
 using BeeSweeper.model;
-using BeeSweeper.Model;
+using NUnit.Framework;
 
-namespace UnitTestProject
+namespace BeeSweeper.Tests
 {
     [TestFixture]
     public class BeeSweeperTest

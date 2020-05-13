@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using BeeSweeper.model;
 
-namespace BeeSweeper.Model
+namespace BeeSweeper.Architecture
 {
     public class Field
     {
