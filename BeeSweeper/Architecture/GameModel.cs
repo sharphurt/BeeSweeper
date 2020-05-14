@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Timers;
 using BeeSweeper.model;
 
 namespace BeeSweeper.Architecture
 {
     public class GameModel
     {
-        public event Action<Winner> GameStateChanged;
+        public event Action<Winner> GameFinished;
+        public event Action GameStarted;
+
         private bool _isFirstClick = true;
 
         public GameModel(Level level)
@@ -25,14 +28,14 @@ namespace BeeSweeper.Architecture
         public Winner Winner { get; private set; }
 
         public bool GameOver { get; private set; }
-
+        
         public void OpenCell(Point pos)
         {
             if (GameOver)
                 return;
             if (_isFirstClick && Field[pos].CellType == CellType.Bee)
                 while (Field[pos].CellType == CellType.Bee)
-                    Field = MapCreator.CreateMap(Level);
+                    PrepareField();
             _isFirstClick = false;
             Field.OpenEmptyArea(pos, out var collectedScore);
             Score += collectedScore;
@@ -40,17 +43,23 @@ namespace BeeSweeper.Architecture
             if (GameOver)
             {
                 foreach (var cell in Field.Map)
-                    cell.CellAttr = CellAttr.Opened;    
-                GameStateChanged?.Invoke(Winner);
+                    cell.CellAttr = CellAttr.Opened;
+                GameFinished?.Invoke(Winner); 
             }
+        }
+
+        public void PrepareField()
+        {
+            Field = MapCreator.CreateMap(Level);
         }
 
         public void StartGame()
         {
-            Field = MapCreator.CreateMap(Level);
+            PrepareField();
             Winner = Winner.Nobody;
             Score = 0;
             GameOver = false;
+            GameStarted?.Invoke();
         }
 
         public void ChangeAttr(Point pos)

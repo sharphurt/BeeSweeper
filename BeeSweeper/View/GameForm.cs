@@ -1,28 +1,39 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
+using Timer = System.Timers.Timer;
 
 namespace BeeSweeper.View
 {
     public class GameForm : Form
     {
         private readonly GameModel _model = new GameModel(Levels.LevelsByName["Easy"]);
+        private readonly GameScene _scene;
+
         private const int HeaderHeight = GameSettings.CellRadius * 2;
 
         private readonly Fonts _fonts = new Fonts();
-        private readonly Timer SpentTime;
         public Button ResetButton;
         public MenuStrip GameMenu;
         public Panel InfoPanel;
-        public Label Timer;
+        public Label StopwatchLabel;
+        private Stopwatch _stopwatch = new Stopwatch();
+        private Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
 
         public GameForm()
         {
             InitializeForm();
-            SetScene(new GameScene(_model));
+            _scene = new GameScene(_model);
+            SetScene(_scene);
             InitializeControls();
-            _model.GameStateChanged += OnGameStateChanged;
+
+            _model.GameFinished += OnGameFinished;
+            _model.GameStarted += OnGameStarted;
+            _updater.Elapsed += OnUpdateForm;
+            _updater.Start();
         }
 
         public void InitializeForm()
@@ -94,8 +105,7 @@ namespace BeeSweeper.View
             };
             InfoPanel.Controls.Add(ResetButton);
 
-            var timerFont = _fonts.TimerFont;
-            Timer = new Label
+            StopwatchLabel = new Label
             {
                 Size = new Size(400, buttonSize.Height),
                 Location = new Point(5, ResetButton.Location.Y),
@@ -104,7 +114,7 @@ namespace BeeSweeper.View
                 Font = _fonts.TimerFont,
                 Text = "00:00"
             };
-            InfoPanel.Controls.Add(Timer);
+            InfoPanel.Controls.Add(StopwatchLabel);
 
             Controls.Add(InfoPanel);
             Controls.Add(GameMenu);
@@ -112,14 +122,27 @@ namespace BeeSweeper.View
             ResetButton.Click += (sender, args) => _model.StartGame();
         }
 
-        private void OnGameStateChanged(Winner winner)
+        private void OnGameFinished(Winner winner)
         {
+            _stopwatch.Stop();
+            Invalidate();
             MessageBox.Show("Game over. Winner: " + winner, "Game over", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        private void OnGameStarted()
+        {
+            _stopwatch.Restart();
         }
 
         private void SetScene(BaseScene newScene)
         {
             Controls.Add(newScene);
+        }
+
+        private void OnUpdateForm(object e, EventArgs args)
+        {
+            StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
+            Invalidate();
         }
     }
 }

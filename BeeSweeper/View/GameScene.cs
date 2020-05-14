@@ -12,11 +12,13 @@ namespace BeeSweeper.View
         private readonly Images _images = new Images();
         private Fonts _fonts = new Fonts();
         private Point _cellUnderCursorLocation = Point.Empty;
+        public event Action Click;
+
 
         public GameScene(GameModel gameModel) : base(gameModel)
         {
             _images.Load();
-            gameModel.StartGame();
+            gameModel.PrepareField();
         }
 
 
@@ -133,6 +135,7 @@ namespace BeeSweeper.View
                 gameModel.OpenCell(_cellUnderCursorLocation);
             else if (e.Button == MouseButtons.Right)
                 gameModel.ChangeAttr(_cellUnderCursorLocation);
+            Click?.Invoke();
         }
 
         protected override void OnLostFocus(EventArgs e)
