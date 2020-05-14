@@ -5,7 +5,7 @@ namespace BeeSweeper.View
 {
     public static class CellByLocation
     {
-        public static Point GetCellLocationByCursorPosition(Point cursor, Field field)
+        public static Point? GetCellLocationByCursorPosition(Point cursor, Field field)
         {
             for (var x = 0; x < field.Width; x++)
             for (var y = 0; y < field.Height; y++)
@@ -15,7 +15,7 @@ namespace BeeSweeper.View
                     return location;
             }
 
-            return Point.Empty;
+            return null;
         }
 
         private static bool IsPointOnCell(Point cursor, Point cellPos)

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
+using BeeSweeper.View.Controls;
 using Timer = System.Timers.Timer;
 
 namespace BeeSweeper.View
@@ -11,22 +12,24 @@ namespace BeeSweeper.View
     public class GameForm : Form
     {
         private readonly GameModel _model = new GameModel(Levels.LevelsByName["Easy"]);
-        private readonly GameScene _scene;
-        private readonly Stopwatch _stopwatch;
+        private readonly GameControl _gameControl;
+        private readonly MenuControl _menuControl;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
 
         private Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
 
         public GameForm()
         {
             InitializeForm();
-            _scene = new GameScene(_model);  
-            ClientSize = new Size(_scene.Size.Width, _scene.Size.Height);
-            SetScene(_scene);
+            _gameControl = new GameControl(_model);   
+            _menuControl = new MenuControl(_model);
 
-
+            SetScene(_menuControl);
+            
             _model.GameFinished += OnGameFinished;
             _model.GameStarted += OnGameStarted;
             _updater.Elapsed += OnUpdateForm;
+            _menuControl.GameStartButtonClick += OnGameStartButtonClick;
             _updater.Start();
         }
 
@@ -53,15 +56,24 @@ namespace BeeSweeper.View
             _stopwatch.Restart();
         }
 
-        private void SetScene(BaseScene newScene)
+        private void SetScene(BaseControl newControl)
         {
-            Controls.Add(newScene);
+            ClientSize = newControl.Size;
+            foreach (Control control in Controls)
+                control.Dispose();
+            Controls.Clear();
+            Controls.Add(newControl);
         }
 
         private void OnUpdateForm(object e, EventArgs args)
         {
-            _scene.StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
+            _gameControl.StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
             Invalidate();
+        }
+
+        private void OnGameStartButtonClick()
+        {
+            SetScene(_gameControl);
         }
     }
 }

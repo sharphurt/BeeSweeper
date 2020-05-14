@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
-using System.Windows.Forms;
-using BeeSweeper.Architecture;
 
 namespace BeeSweeper.View
 {
@@ -10,9 +7,12 @@ namespace BeeSweeper.View
     {
         public static class Colors
         {
-            public static Color UnrevealedColor = Color.FromArgb(80, 80, 80);
-            public static Color RevealedColor = Color.FromArgb(190, 190, 190);
-            public static Color FormBackground = Color.FromArgb(50, 50, 50);
+            public static Color UnrevealedColor = Color.FromArgb(200,200,200);
+            public static Color RevealedColor = Color.FromArgb(255, 255, 255);
+            public static Color InterfaceBackgroundColor = Color.White;
+            public static Color FormBackground = Color.White;
+            public static Color TextColor = Color.Black;
+            public static Color OutlineColor = Color.Gray;
 
             public static readonly Dictionary<int, Color> ColorsByNeighbouringBees = new Dictionary<int, Color>
             {
@@ -27,7 +27,7 @@ namespace BeeSweeper.View
         
         public static class Pens
         {
-            public static Pen OutlinePen = new Pen(Color.FromArgb(127, 127, 127));
+            public static Pen OutlinePen = new Pen(Colors.OutlineColor, 2);
         }
     }
 }

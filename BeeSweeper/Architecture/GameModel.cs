@@ -21,31 +21,39 @@ namespace BeeSweeper.Architecture
         public readonly Level Level;
 
         public Field Field;
+        private int _score;
 
-        public int Score { get; private set; }
+        public int Score
+        {
+            get => _score;
+            private set
+            {
+                _score = value;
+                ScoreChanged?.Invoke();
+            }
+        }
 
-        public Winner Winner { get; private set; }
+        public Winner Winner
+        {
+            get; private set;
+        }
 
-        public bool GameOver { get; private set; }
-        
+        public bool GameOver = true;
+
         public void OpenCell(Point pos)
         {
-            if (GameOver)
-                return;
+            RegenerateFieldIfNecessary(pos);
+            Field.OpenEmptyArea(pos, out var collectedScore);
+            Score += collectedScore;          
+            CheckForGameOver(pos);
+        }
+
+        private void RegenerateFieldIfNecessary(Point pos)
+        {
             if (_isFirstClick && Field[pos].CellType == CellType.Bee)
                 while (Field[pos].CellType == CellType.Bee)
                     PrepareField();
             _isFirstClick = false;
-            Field.OpenEmptyArea(pos, out var collectedScore);
-            Score += collectedScore;
-            ScoreChanged?.Invoke();
-            GameOver = CheckForGameOver(pos);
-            if (GameOver)
-            {
-                foreach (var cell in Field.Map)
-                    cell.CellAttr = CellAttr.Opened;
-                GameFinished?.Invoke(Winner); 
-            }
         }
 
         public void PrepareField()
@@ -81,22 +89,23 @@ namespace BeeSweeper.Architecture
             }
         }
 
-        private bool CheckForGameOver(Point pos)
+        private void CheckForGameOver(Point pos)
+        {
+            GameOver = GetWinner(pos) != Winner.Nobody;
+            if (!GameOver) return;
+            Winner = GetWinner(pos);
+            foreach (var cell in Field.Map)
+                cell.CellAttr = CellAttr.Opened;
+            GameFinished?.Invoke(Winner);
+        }
+
+        private Winner GetWinner(Point pos)
         {
             if (Field[pos].CellType == CellType.Bee)
-            {
-                Winner = Winner.Computer;
-                return true;
-            }
-
-            if (Field.Map.Cast<Cell>().Count(c => c.CellType != CellType.Bee && c.CellAttr == CellAttr.Opened) ==
-                Field.Map.Length - Field.TotalBeesCount)
-            {
-                Winner = Winner.Player;
-                return true;
-            }
-
-            return false;
+                return Winner.Computer;
+            if (Field.Map.Cast<Cell>().Where(c => c.CellType != CellType.Bee).All(cell => cell.CellAttr == CellAttr.Opened))
+                return Winner.Player;
+            return Winner.Nobody;
         }
     }
 }

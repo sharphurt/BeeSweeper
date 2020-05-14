@@ -64,7 +64,6 @@
         <Compile Include="Architecture\Util.cs" />
         <Compile Include="Architecture\Winner.cs" />
         <Compile Include="View\CellByLocation.cs" />
-        <Compile Include="View\FieldControl.cs" />
         <Compile Include="View\Fonts.cs" />
         <Compile Include="View\GameForm.cs" />
         <Compile Include="Program.cs" />
@@ -72,9 +71,10 @@
         <Compile Include="Tests\BeeSweeperTests.cs" />
         <Compile Include="View\Images.cs" />
         <Compile Include="View\Palette.cs" />
-        <Compile Include="View\Scenes\BaseScene.cs" />
-        <Compile Include="View\Scenes\GameScene.cs" />
-        <Compile Include="View\Scenes\MenuScene.cs" />
+        <Compile Include="View\Controls\BaseControl.cs" />
+        <Compile Include="View\Controls\FieldControl.cs" />
+        <Compile Include="View\Controls\GameControl.cs" />
+        <Compile Include="View\Controls\MenuControl.cs" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -166,6 +166,11 @@
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Include="Assets\Fonts\courer_new.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Fonts\ProximaNova-Regular.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>

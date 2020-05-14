@@ -12,7 +12,7 @@ namespace BeeSweeper.Architecture
 
         private readonly int _fillPercent;
 
-        public int TotalBeesCount => Map.Length * _fillPercent / 100;
+        public int TotalBees => Map.Length * _fillPercent / 100;
         public int Width => Map.GetLength(0);
         public int Height => Map.GetLength(1);
 

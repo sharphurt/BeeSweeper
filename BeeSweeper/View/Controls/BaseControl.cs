@@ -3,14 +3,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 
-namespace BeeSweeper.View
+namespace BeeSweeper.View.Controls
 {
-    public abstract class BaseScene : UserControl
+    public abstract class BaseControl : UserControl
     {
         protected GameModel gameModel;
         public Size Size;
 
-        public BaseScene(GameModel gameModel)
+        public BaseControl(GameModel gameModel)
         {
             Dock = DockStyle.Fill;
             DoubleBuffered = true;
@@ -20,8 +20,6 @@ namespace BeeSweeper.View
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
-            BackColor = Palette.Colors.FormBackground;
             Focus();
         }
     }
