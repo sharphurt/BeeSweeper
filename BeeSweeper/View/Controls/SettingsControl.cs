@@ -11,6 +11,8 @@ namespace BeeSweeper.View.Controls
     public class SettingsControl : BaseControl
     {
         public static event Action ApplyButtonClick;
+        public static event Action CancelButtonClick;
+
         private readonly Fonts _fonts = new Fonts();
 
         private NumericUpDown _widthTb;
@@ -164,6 +166,7 @@ namespace BeeSweeper.View.Controls
             _heightTb.ValueChanged += (sender, args) => { OnLevelParameterChange(_heightTb); };
             _difficultyTb.ValueChanged += (sender, args) => { OnLevelParameterChange(_difficultyTb); };
             applyButton.Click += OnApplyButtonClick;
+            cancelButton.Click += OnCancelButtonClick;
 
             _levelsList.Text = Levels.SelectedLevel.Name;
         }
@@ -210,6 +213,11 @@ namespace BeeSweeper.View.Controls
         {
             Levels.SelectedLevel = GetLevelFromFields();
             ApplyButtonClick?.Invoke();
+        }
+
+        private void OnCancelButtonClick(object sender, EventArgs eventArgs)
+        {
+            CancelButtonClick?.Invoke();
         }
     }
 }
