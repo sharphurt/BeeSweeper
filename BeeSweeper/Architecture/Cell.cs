@@ -27,13 +27,10 @@ namespace BeeSweeper.Architecture
             );
 
             for (var i = 0; i < 6; i++)
-            {
-                var vertex = new Point(
+                vertices[i] = new Point(
                     (int) (centre.X + GameSettings.CellRadius * Math.Sin(i * Math.PI / 3)),
                     (int) (centre.Y + GameSettings.CellRadius * Math.Cos(i * Math.PI / 3))
                 );
-                vertices[i] = vertex;
-            }
 
             return vertices;
         }

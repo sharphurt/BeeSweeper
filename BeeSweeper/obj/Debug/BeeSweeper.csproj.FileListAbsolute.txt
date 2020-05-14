@@ -29,3 +29,5 @@ C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\luck.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\please.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\win.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\question.png
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Fonts\timer_font.ttf
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Fonts\courer_new.ttf

@@ -3,6 +3,6 @@
     public static class GameSettings
     {
         public const string GameName = "BeeSweeper";
-        public const int CellRadius = 40;
+        public const int CellRadius = 30;
     }
 }

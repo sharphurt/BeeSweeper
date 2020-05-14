@@ -21,6 +21,10 @@
           <e p="Winner.cs" t="Include" />
         </e>
         <e p="Assets" t="Include">
+          <e p="Fonts" t="Include">
+            <e p="courer_new.ttf" t="Include" />
+            <e p="timer_font.ttf" t="Include" />
+          </e>
           <e p="Textures" t="Include">
             <e p="bee.png" t="Include" />
             <e p="Digits" t="Include">
@@ -61,10 +65,11 @@
           <e p="BeeSweeperTests.cs" t="Include" />
         </e>
         <e p="View" t="Include">
-          <e p="BaseControl.cs" t="Include" />
+          <e p="BaseScene.cs" t="Include" />
           <e p="CellByLocation.cs" t="Include" />
-          <e p="GameControl.cs" t="Include" />
+          <e p="Fonts.cs" t="Include" />
           <e p="GameForm.cs" t="Include" />
+          <e p="GameScene.cs" t="Include" />
           <e p="Images.cs" t="Include" />
           <e p="Palette.cs" t="Include" />
         </e>

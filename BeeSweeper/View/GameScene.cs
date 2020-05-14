@@ -4,23 +4,21 @@ using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
 using BeeSweeper.model;
-using BeeSweeper.View;
 
-namespace BlindMan.View.Controls
+namespace BeeSweeper.View
 {
-    public class GameControl : BaseControl
+    public class GameScene : BaseScene
     {
-        Images images = new Images();
-        private Timer updateTimer;
+        private readonly Images _images = new Images();
+        private Fonts _fonts = new Fonts();
         private Point _cellUnderCursorLocation = Point.Empty;
 
-
-        public GameControl(GameModel gameModel) : base(gameModel)
+        public GameScene(GameModel gameModel) : base(gameModel)
         {
-            images.Load();
+            _images.Load();
             gameModel.StartGame();
-            BackColor = Palette.Colors.FormBackground;
         }
+
 
         private void DrawGrid(Graphics graphics)
         {
@@ -34,10 +32,10 @@ namespace BlindMan.View.Controls
                     switch (cell.CellAttr)
                     {
                         case CellAttr.Flagged:
-                            DrawImage(new Point(x, y), images.Flag, Palette.Colors.UnrevealedColor, graphics);
+                            DrawImage(new Point(x, y), _images.Flag, Palette.Colors.UnrevealedColor, graphics);
                             break;
                         case CellAttr.Questioned:
-                            DrawImage(new Point(x, y), images.Question, Palette.Colors.UnrevealedColor, graphics);
+                            DrawImage(new Point(x, y), _images.Question, Palette.Colors.UnrevealedColor, graphics);
                             break;
                         case CellAttr.Opened:
                             DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
@@ -68,7 +66,8 @@ namespace BlindMan.View.Controls
             DrawEmpty(pos, backColor, graphics);
             var imagePos = Cell.CalculateImagePosition(pos);
             var destRectangle = new Rectangle(imagePos.X, imagePos.Y, GameSettings.CellRadius, GameSettings.CellRadius);
-            graphics.DrawImage(image, destRectangle, 0f, 0f, images.Flag.Width, images.Flag.Height, GraphicsUnit.Pixel);
+            graphics.DrawImage(image, destRectangle, 0f, 0f, _images.Flag.Width, _images.Flag.Height,
+                GraphicsUnit.Pixel);
         }
 
         private void DrawInformer(Point pos, Graphics graphics)
@@ -76,7 +75,7 @@ namespace BlindMan.View.Controls
             DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);
             var cell = gameModel.Field[pos].BeesAround;
             var textPos = Cell.CalculateTextPosition(pos);
-            graphics.DrawString(cell.ToString(), Palette.Fonts.LabelFont,
+            graphics.DrawString(cell.ToString(), _fonts.InformerFont,
                 new SolidBrush(Palette.Colors.ColorsByNeighbouringBees[cell]), textPos.X, textPos.Y);
         }
 
@@ -88,7 +87,7 @@ namespace BlindMan.View.Controls
                     DrawInformer(pos, graphics);
                     break;
                 case CellType.Bee:
-                    DrawImage(pos, images.Bee, Palette.Colors.RevealedColor, graphics);
+                    DrawImage(pos, _images.Bee, Palette.Colors.RevealedColor, graphics);
                     break;
                 case CellType.Empty:
                     DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);

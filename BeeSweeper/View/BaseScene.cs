@@ -5,11 +5,11 @@ using BeeSweeper.Architecture;
 
 namespace BeeSweeper.View
 {
-    public abstract class BaseControl : UserControl
+    public abstract class BaseScene : UserControl
     {
         protected GameModel gameModel;
 
-        public BaseControl(GameModel gameModel)
+        public BaseScene(GameModel gameModel)
         {
             Dock = DockStyle.Fill;
             DoubleBuffered = true;
@@ -19,7 +19,8 @@ namespace BeeSweeper.View
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            Size = new Size(Parent.ClientSize.Width, Parent.ClientSize.Height);
+
+            BackColor = Palette.Colors.FormBackground;
             Focus();
         }
     }

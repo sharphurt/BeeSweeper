@@ -63,9 +63,10 @@
         <Compile Include="Architecture\MapCreator.cs" />
         <Compile Include="Architecture\Util.cs" />
         <Compile Include="Architecture\Winner.cs" />
-        <Compile Include="View\BaseControl.cs" />
+        <Compile Include="View\BaseScene.cs" />
         <Compile Include="View\CellByLocation.cs" />
-        <Compile Include="View\GameControl.cs" />
+        <Compile Include="View\Fonts.cs" />
+        <Compile Include="View\GameScene.cs" />
         <Compile Include="View\GameForm.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +154,16 @@
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Include="Assets\Textures\question.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Fonts\timer_font.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Fonts\courer_new.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>
