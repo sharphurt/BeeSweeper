@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
@@ -11,14 +12,116 @@ namespace BeeSweeper.View
     {
         private readonly Images _images = new Images();
         private Fonts _fonts = new Fonts();
+        
+        private const int HeaderHeight = GameSettings.CellRadius * 2;
+        public Button ResetButton;
+        public MenuStrip GameMenu;
+        public Panel InfoPanel;
+        public Label ScoreLabel;
+        public Label StopwatchLabel;
+        public FieldControl FieldControl;
+
         private Point _cellUnderCursorLocation = Point.Empty;
-        public event Action Click;
 
 
         public GameScene(GameModel gameModel) : base(gameModel)
         {
-            _images.Load();
-            gameModel.PrepareField();
+            var formWidth = Cell.CalculateVertices(new Point(gameModel.Level.Size.Width - 1, 1))[1].X;
+            var formHeight = Cell.CalculateVertices(new Point(0, gameModel.Level.Size.Height - 1))[0].Y
+                             + HeaderHeight +
+                             27;
+            Size = new Size(formWidth, formHeight);
+            InitializeControls();
+            gameModel.ScoreChanged += OnScoreChange;
+        }
+
+        public void InitializeControls()
+        {
+            FieldControl = new FieldControl(gameModel);
+
+            GameMenu = new MenuStrip
+            {
+                Location = new Point(0, 0),
+                Size = new Size(Size.Width, 10),
+                BackColor = Palette.Colors.UnrevealedColor,
+                ForeColor = Palette.Colors.RevealedColor,
+                Renderer = new ToolStripProfessionalRenderer(),
+                Dock = DockStyle.Top
+            };
+
+            var propertiesButton = new ToolStripButton("Properties");
+
+            // propertiesButton.Click += (sender, args) =>
+            // {
+            //     form.Enabled = false;
+            //     var propertiesForm = new PropertiesForm();
+            //     propertiesForm.Show(form);
+            // };
+
+            var aboutButton = new ToolStripButton("About");
+
+            // aboutButton.Click += (sender, args) =>
+            // {
+            //     form.Enabled = false;
+            //     var propertiesForm = new PropertiesForm();
+            //     propertiesForm.Show(form);
+            // };
+
+            GameMenu.Items.Add(propertiesButton);
+            GameMenu.Items.Add(aboutButton);
+
+            InfoPanel = new Panel
+            {
+                Location = new Point(0, GameMenu.Height),
+                Size = new Size(Size.Width, HeaderHeight),
+                BackColor = Palette.Colors.UnrevealedColor,
+                ForeColor = Palette.Colors.RevealedColor,
+                Dock = DockStyle.Top
+            };
+
+            var buttonSize = new Size((int) (InfoPanel.Height * 0.7), (int) (InfoPanel.Height * 0.7));
+            ResetButton = new Button
+            {
+                Size = buttonSize,
+                Location = new Point(InfoPanel.Width / 2 - buttonSize.Width / 2,
+                    InfoPanel.Height / 2 - buttonSize.Height / 2),
+                BackColor = Palette.Colors.RevealedColor,
+                FlatStyle = FlatStyle.Flat,
+                BackgroundImageLayout = ImageLayout.Stretch
+            };
+            InfoPanel.Controls.Add(ResetButton);
+
+            StopwatchLabel = new Label
+            {
+                Size = new Size(Size.Width / 2, buttonSize.Height),
+                Location = new Point(5, (HeaderHeight - _fonts.TimerFont.Height) / 2),
+                TextAlign = ContentAlignment.MiddleLeft,
+                BackColor = Palette.Colors.UnrevealedColor,
+                ForeColor = Palette.Colors.RevealedColor,
+                Font = _fonts.TimerFont,
+                Text = "00:00"
+            };
+
+            ScoreLabel = new Label
+            {
+                Size = new Size(Size.Width / 2, buttonSize.Height),
+                Location = new Point(Size.Width / 2, (HeaderHeight - _fonts.TimerFont.Height) / 2),
+                TextAlign  = ContentAlignment.MiddleRight,
+                BackColor = Palette.Colors.UnrevealedColor,
+                ForeColor = Palette.Colors.RevealedColor,
+                Font = _fonts.TimerFont,
+                Text = "0"
+            };
+
+            InfoPanel.Controls.Add(ScoreLabel);
+            InfoPanel.Controls.Add(StopwatchLabel);
+
+
+            Controls.Add(FieldControl);
+            Controls.Add(InfoPanel);
+            Controls.Add(GameMenu);
+            ResetButton.FlatAppearance.BorderColor = Palette.Colors.UnrevealedColor;
+            ResetButton.Click += (sender, args) => gameModel.StartGame();
         }
 
 
@@ -135,12 +238,11 @@ namespace BeeSweeper.View
                 gameModel.OpenCell(_cellUnderCursorLocation);
             else if (e.Button == MouseButtons.Right)
                 gameModel.ChangeAttr(_cellUnderCursorLocation);
-            Click?.Invoke();
         }
 
-        protected override void OnLostFocus(EventArgs e)
+        private void OnScoreChange()
         {
-            Invalidate();
+            ScoreLabel.Text = gameModel.Score.ToString();
         }
     }
 }

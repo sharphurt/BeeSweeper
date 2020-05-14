@@ -12,23 +12,17 @@ namespace BeeSweeper.View
     {
         private readonly GameModel _model = new GameModel(Levels.LevelsByName["Easy"]);
         private readonly GameScene _scene;
+        private readonly Stopwatch _stopwatch;
 
-        private const int HeaderHeight = GameSettings.CellRadius * 2;
-
-        private readonly Fonts _fonts = new Fonts();
-        public Button ResetButton;
-        public MenuStrip GameMenu;
-        public Panel InfoPanel;
-        public Label StopwatchLabel;
-        private Stopwatch _stopwatch = new Stopwatch();
         private Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
 
         public GameForm()
         {
             InitializeForm();
-            _scene = new GameScene(_model);
+            _scene = new GameScene(_model);  
+            ClientSize = new Size(_scene.Size.Width, _scene.Size.Height);
             SetScene(_scene);
-            InitializeControls();
+
 
             _model.GameFinished += OnGameFinished;
             _model.GameStarted += OnGameStarted;
@@ -38,11 +32,6 @@ namespace BeeSweeper.View
 
         public void InitializeForm()
         {
-            var formWidth = Cell.CalculateVertices(new Point(_model.Level.Size.Width - 1, 1))[1].X;
-            var formHeight = Cell.CalculateVertices(new Point(0, _model.Level.Size.Height - 1))[0].Y
-                             + HeaderHeight + 30;
-
-            ClientSize = new Size(formWidth, formHeight);
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint,
                 true);
             DoubleBuffered = true;
@@ -51,76 +40,6 @@ namespace BeeSweeper.View
             FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
-        public void InitializeControls()
-        {
-            GameMenu = new MenuStrip
-            {
-                Location = new Point(0, 0),
-                Size = new Size(Width, 10),
-                BackColor = Palette.Colors.UnrevealedColor,
-                ForeColor = Palette.Colors.RevealedColor,
-                Renderer = new ToolStripProfessionalRenderer(),
-                Dock = DockStyle.Top
-            };
-
-            var propertiesButton = new ToolStripButton("Properties");
-
-            // propertiesButton.Click += (sender, args) =>
-            // {
-            //     form.Enabled = false;
-            //     var propertiesForm = new PropertiesForm();
-            //     propertiesForm.Show(form);
-            // };
-
-            var aboutButton = new ToolStripButton("About");
-
-            // aboutButton.Click += (sender, args) =>
-            // {
-            //     form.Enabled = false;
-            //     var propertiesForm = new PropertiesForm();
-            //     propertiesForm.Show(form);
-            // };
-
-            GameMenu.Items.Add(propertiesButton);
-            GameMenu.Items.Add(aboutButton);
-
-            InfoPanel = new Panel
-            {
-                Location = new Point(0, GameMenu.Height),
-                Size = new Size(Width, HeaderHeight),
-                BackColor = Palette.Colors.UnrevealedColor,
-                ForeColor = Palette.Colors.RevealedColor,
-                Dock = DockStyle.Top
-            };
-
-            var buttonSize = new Size((int) (InfoPanel.Height * 0.7), (int) (InfoPanel.Height * 0.7));
-            ResetButton = new Button
-            {
-                Size = buttonSize,
-                Location = new Point(InfoPanel.Width / 2 - buttonSize.Width / 2,
-                    InfoPanel.Height / 2 - buttonSize.Height / 2),
-                BackColor = Palette.Colors.RevealedColor,
-                FlatStyle = FlatStyle.Flat,
-                BackgroundImageLayout = ImageLayout.Stretch
-            };
-            InfoPanel.Controls.Add(ResetButton);
-
-            StopwatchLabel = new Label
-            {
-                Size = new Size(400, buttonSize.Height),
-                Location = new Point(5, ResetButton.Location.Y),
-                BackColor = Palette.Colors.UnrevealedColor,
-                ForeColor = Palette.Colors.RevealedColor,
-                Font = _fonts.TimerFont,
-                Text = "00:00"
-            };
-            InfoPanel.Controls.Add(StopwatchLabel);
-
-            Controls.Add(InfoPanel);
-            Controls.Add(GameMenu);
-            ResetButton.FlatAppearance.BorderColor = Palette.Colors.UnrevealedColor;
-            ResetButton.Click += (sender, args) => _model.StartGame();
-        }
 
         private void OnGameFinished(Winner winner)
         {
@@ -141,7 +60,7 @@ namespace BeeSweeper.View
 
         private void OnUpdateForm(object e, EventArgs args)
         {
-            StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
+            _scene.StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
             Invalidate();
         }
     }

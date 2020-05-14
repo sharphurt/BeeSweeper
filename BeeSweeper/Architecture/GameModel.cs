@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Timers;
 using BeeSweeper.model;
 
 namespace BeeSweeper.Architecture
@@ -11,6 +9,7 @@ namespace BeeSweeper.Architecture
     {
         public event Action<Winner> GameFinished;
         public event Action GameStarted;
+        public event Action ScoreChanged;
 
         private bool _isFirstClick = true;
 
@@ -39,6 +38,7 @@ namespace BeeSweeper.Architecture
             _isFirstClick = false;
             Field.OpenEmptyArea(pos, out var collectedScore);
             Score += collectedScore;
+            ScoreChanged?.Invoke();
             GameOver = CheckForGameOver(pos);
             if (GameOver)
             {

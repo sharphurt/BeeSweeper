@@ -8,6 +8,7 @@ namespace BeeSweeper.View
     public abstract class BaseScene : UserControl
     {
         protected GameModel gameModel;
+        public Size Size;
 
         public BaseScene(GameModel gameModel)
         {

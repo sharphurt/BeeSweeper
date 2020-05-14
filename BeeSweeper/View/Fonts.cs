@@ -20,7 +20,7 @@ namespace BeeSweeper.View
         public void Load()
         {
             InformerFont = LoadFontFromFile("courer_new.ttf", (int) (GameSettings.CellRadius * 0.8));
-            TimerFont = LoadFontFromFile("timer_font.ttf", (int) (GameSettings.CellRadius * 1.3));
+            TimerFont = LoadFontFromFile("timer_font.ttf", GameSettings.CellRadius);
         }
 
         private Font LoadFontFromFile(string fileName, int fontSize)
