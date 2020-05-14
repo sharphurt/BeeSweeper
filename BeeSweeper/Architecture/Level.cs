@@ -6,9 +6,12 @@ namespace BeeSweeper
     {
         public Size Size { get; }
         public int Percent { get; }
+        
+        public string Name { get; }
 
-        public Level(Size size, int percent)
+        public Level(string name, Size size, int percent)
         {
+            Name = name;
             Size = size;
             Percent = percent;
         }

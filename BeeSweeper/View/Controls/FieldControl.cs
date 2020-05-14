@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
 using BeeSweeper.model;
-using BeeSweeper.View.Controls;
 
-namespace BeeSweeper.View
+namespace BeeSweeper.View.Controls
 {
     public class FieldControl : BaseControl
     {
         private readonly Images _images = new Images();
-        private Fonts _fonts = new Fonts();
-
+        private readonly Fonts _fonts = new Fonts();
+        private readonly GameModel _model;
         private Point? _cellUnderCursorLocation;
 
+        public new event Action MouseDown;
+        public new event Action MouseUp;
 
-        public FieldControl(GameModel gameModel) : base(gameModel)
-        {
+        public FieldControl(GameModel gameModel)
+        {          
+            _model = gameModel;
             BackColor = Palette.Colors.FormBackground;
-
             var formWidth = Cell.CalculateVertices(new Point(gameModel.Level.Size.Width - 1, 1))[1].X;
             var formHeight = Cell.CalculateVertices(new Point(0, gameModel.Level.Size.Height - 1))[0].Y;
             Size = new Size(formWidth, formHeight);
@@ -30,13 +30,13 @@ namespace BeeSweeper.View
 
         private void DrawGrid(Graphics graphics)
         {
-            var field = gameModel.Field;
+            var field = _model.Field;
 
             for (var x = 0; x < field.Width; x++)
             {
                 for (var y = 0; y < field.Height; y++)
                 {
-                    var cell = gameModel.Field[x, y];
+                    var cell = _model.Field[x, y];
                     switch (cell.CellAttr)
                     {
                         case CellAttr.Flagged:
@@ -82,9 +82,9 @@ namespace BeeSweeper.View
         private void DrawInformer(Point pos, Graphics graphics)
         {
             DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);
-            var cell = gameModel.Field[pos].BeesAround;
+            var cell = _model.Field[pos].BeesAround;
             var textPos = Cell.CalculateTextPosition(pos);
-            graphics.DrawString(cell.ToString(), _fonts.InformerFont,
+            graphics.DrawString(cell.ToString(), new Font(_fonts.Font, FontStyle.Bold), 
                 new SolidBrush(Palette.Colors.ColorsByNeighbouringBees[cell]), textPos.X, textPos.Y);
         }
 
@@ -112,8 +112,9 @@ namespace BeeSweeper.View
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            if (!gameModel.GameOver)
-                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            MouseDown?.Invoke();
+            if (!_model.GameOver)
+                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, _model.Field);
             else
                 _cellUnderCursorLocation = null;
             Invalidate();
@@ -121,8 +122,8 @@ namespace BeeSweeper.View
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.None && _cellUnderCursorLocation.HasValue && !gameModel.GameOver)
-                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, gameModel.Field);
+            if (e.Button != MouseButtons.None && _cellUnderCursorLocation.HasValue && !_model.GameOver)
+                _cellUnderCursorLocation = CellByLocation.GetCellLocationByCursorPosition(e.Location, _model.Field);
             else
                 _cellUnderCursorLocation = null;
             Invalidate();
@@ -130,18 +131,19 @@ namespace BeeSweeper.View
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
+            MouseUp?.Invoke();
             _cellUnderCursorLocation = null;
             Invalidate();
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            if (gameModel.GameOver)
+            if (_model.GameOver)
                 return;
             if (e.Button == MouseButtons.Left && _cellUnderCursorLocation.HasValue)
-                gameModel.OpenCell(_cellUnderCursorLocation.Value);
+                _model.OpenCell(_cellUnderCursorLocation.Value);
             else if (e.Button == MouseButtons.Right && _cellUnderCursorLocation.HasValue)
-                gameModel.ChangeAttr(_cellUnderCursorLocation.Value);
+                _model.ChangeAttr(_cellUnderCursorLocation.Value);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace BeeSweeper.Tests
         [Test]
         public void FinishGameOnEmptyFieldTest()
         {
-            var model = new GameModel(new Level(new Size(3, 3), 0));
+            var model = new GameModel(new Level("", new Size(3, 3), 0));
             model.OpenCell(new Point(0, 0));
             Assert.IsTrue(model.GameOver);
             Assert.AreEqual(Winner.Player, model.Winner);
@@ -31,7 +31,7 @@ namespace BeeSweeper.Tests
         public void FinishGameSuccessfullyTest()
         {
             var size = new Size(5, 5);
-            var model = new GameModel(new Level(size, 4));
+            var model = new GameModel(new Level("", size, 4));
             var customMines = new[] {new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(0, 4));
@@ -43,7 +43,7 @@ namespace BeeSweeper.Tests
         public void GameFailedTest()
         {
             var size = new Size(5, 5);
-            var model = new GameModel(new Level(size, 4));
+            var model = new GameModel(new Level("", size, 4));
             var customMines = new[] {new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(2, 2));
@@ -55,7 +55,7 @@ namespace BeeSweeper.Tests
         public void NeighboursCountingCorrectnessTest()
         {
             var size = new Size(3, 3);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var customMines = new[] {new Point(2, 1), new Point(1, 0)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             var fieldCellsShouldBe = new Dictionary<Point, int>
@@ -81,7 +81,7 @@ namespace BeeSweeper.Tests
         public void OpenEmptyTerritoryTest1()
         {
             var size = new Size(3, 3);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var customMines = new[] {new Point(1, 0), new Point(1, 1), new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(0, 2));
@@ -108,7 +108,7 @@ namespace BeeSweeper.Tests
         public void OpenEmptyTerritoryTest2()
         {
             var size = new Size(3, 3);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var customMines = new[] {new Point(2, 0), new Point(2, 1), new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(0, 2));
@@ -135,7 +135,7 @@ namespace BeeSweeper.Tests
         public void ChangeAttrTest()
         {
             var size = new Size(3, 3);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var checkedAttrs = new [] { CellAttr.Flagged, CellAttr.Questioned, CellAttr.None };
             var testedPoint = new Point(1, 1);
             foreach (var attr in checkedAttrs)
@@ -149,7 +149,7 @@ namespace BeeSweeper.Tests
         public void ScoreTest1()
         {
             var size = new Size(5, 5);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var customMines = new[] {new Point(2, 2)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(0, 0));
@@ -160,7 +160,7 @@ namespace BeeSweeper.Tests
         public void ScoreTest2()
         {
             var size = new Size(5, 5);
-            var model = new GameModel(new Level(size, 0));
+            var model = new GameModel(new Level("", size, 0));
             var customMines = new[] {new Point(2, 2), new Point(2, 3)};
             model.Field.Map = CreateFieldWithCustomMines(size, customMines).Map;
             model.OpenCell(new Point(0, 0));

@@ -22,7 +22,6 @@
         </e>
         <e p="Assets" t="Include">
           <e p="Fonts" t="Include">
-            <e p="courer_new.ttf" t="Include" />
             <e p="ProximaNova-Regular.ttf" t="Include" />
             <e p="timer_font.ttf" t="Include" />
           </e>
@@ -72,6 +71,7 @@
             <e p="FieldControl.cs" t="Include" />
             <e p="GameControl.cs" t="Include" />
             <e p="MenuControl.cs" t="Include" />
+            <e p="SettingsControl.cs" t="Include" />
           </e>
           <e p="Fonts.cs" t="Include" />
           <e p="GameForm.cs" t="Include" />

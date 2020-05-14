@@ -64,6 +64,7 @@
         <Compile Include="Architecture\Util.cs" />
         <Compile Include="Architecture\Winner.cs" />
         <Compile Include="View\CellByLocation.cs" />
+        <Compile Include="View\Controls\SettingsControl.cs" />
         <Compile Include="View\Fonts.cs" />
         <Compile Include="View\GameForm.cs" />
         <Compile Include="Program.cs" />
@@ -161,11 +162,6 @@
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Include="Assets\Fonts\timer_font.ttf">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </EmbeddedResource>
-    </ItemGroup>
-    <ItemGroup>
-      <EmbeddedResource Include="Assets\Fonts\courer_new.ttf">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>

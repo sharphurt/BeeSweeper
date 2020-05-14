@@ -7,8 +7,8 @@ namespace BeeSweeper.View
 {
     public class Fonts
     {
-        public Font InformerFont;
-        public Font TimerFont;
+        public Font Font;
+        public Font ButtonFont;
 
         private readonly PrivateFontCollection fontCollection = new PrivateFontCollection();
 
@@ -19,8 +19,8 @@ namespace BeeSweeper.View
 
         public void Load()
         {
-            InformerFont = LoadFontFromFile("ProximaNova-Regular.ttf", (int) (GameSettings.CellRadius * 0.8));
-            TimerFont = LoadFontFromFile("timer_font.ttf", GameSettings.CellRadius);
+            Font = LoadFontFromFile("ProximaNova-Regular.ttf", (int) (GameSettings.CellRadius * 0.8));
+            ButtonFont = LoadFontFromFile("ProximaNova-Regular.ttf", 15);
         }
 
         private Font LoadFontFromFile(string fileName, int fontSize)

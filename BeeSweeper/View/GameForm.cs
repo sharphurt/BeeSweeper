@@ -1,36 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.View.Controls;
-using Timer = System.Timers.Timer;
 
 namespace BeeSweeper.View
 {
     public class GameForm : Form
     {
-        private readonly GameModel _model = new GameModel(Levels.LevelsByName["Easy"]);
-        private readonly GameControl _gameControl;
-        private readonly MenuControl _menuControl;
-        private readonly Stopwatch _stopwatch = new Stopwatch();
-
-        private Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
+        private GameModel _model;
 
         public GameForm()
         {
             InitializeForm();
-            _gameControl = new GameControl(_model);   
-            _menuControl = new MenuControl(_model);
+            SetScene(new MenuControl());
 
-            SetScene(_menuControl);
-            
-            _model.GameFinished += OnGameFinished;
-            _model.GameStarted += OnGameStarted;
-            _updater.Elapsed += OnUpdateForm;
-            _menuControl.GameStartButtonClick += OnGameStartButtonClick;
-            _updater.Start();
+
+            MenuControl.GameStartButtonClick += OnGameStartButtonClick;
+            MenuControl.SettingsButtonClick += OnSettingsButtonClick;
+            SettingsControl.ApplyButtonClick += OnApplySettings;
+            GameControl.MenuButton.Click += OnMenuButtonClick;
         }
 
         public void InitializeForm()
@@ -44,36 +33,38 @@ namespace BeeSweeper.View
         }
 
 
-        private void OnGameFinished(Winner winner)
-        {
-            _stopwatch.Stop();
-            Invalidate();
-            MessageBox.Show("Game over. Winner: " + winner, "Game over", MessageBoxButtons.OK, MessageBoxIcon.None);
-        }
-
-        private void OnGameStarted()
-        {
-            _stopwatch.Restart();
-        }
-
         private void SetScene(BaseControl newControl)
         {
             ClientSize = newControl.Size;
-            foreach (Control control in Controls)
-                control.Dispose();
+            // foreach (Control control in Controls)
+            //     control.Dispose();
             Controls.Clear();
             Controls.Add(newControl);
         }
 
-        private void OnUpdateForm(object e, EventArgs args)
+        private void OnMenuButtonClick(object sender, EventArgs eventArgs)
         {
-            _gameControl.StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
-            Invalidate();
+            SetScene(new MenuControl());
         }
 
         private void OnGameStartButtonClick()
         {
-            SetScene(_gameControl);
+            _model = new GameModel(Levels.SelectedLevel);
+            var gameControl = new GameControl(_model);
+            SetScene(gameControl);
+            gameControl.OnResetButtonClick();
+        }
+
+        private void OnSettingsButtonClick()
+        {
+            var gameControl = new SettingsControl();
+            SetScene(gameControl);
+        }
+
+        private void OnApplySettings()
+        {
+            var menuControl = new MenuControl();
+            SetScene(menuControl);
         }
     }
 }

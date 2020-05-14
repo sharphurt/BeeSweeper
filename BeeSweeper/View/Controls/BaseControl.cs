@@ -7,14 +7,12 @@ namespace BeeSweeper.View.Controls
 {
     public abstract class BaseControl : UserControl
     {
-        protected GameModel gameModel;
         public Size Size;
 
-        public BaseControl(GameModel gameModel)
+        public BaseControl()
         {
             Dock = DockStyle.Fill;
             DoubleBuffered = true;
-            this.gameModel = gameModel;
         }
 
         protected override void OnLoad(EventArgs e)
