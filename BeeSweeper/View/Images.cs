@@ -4,6 +4,11 @@ namespace BeeSweeper.Forms
 {
     public class Images
     {
+        public Images()
+        {
+            Load();
+        }
+
         public Image Bee { get; private set; }
         public Image Flag { get; private set; }
         public Image Question { get; private set; }
@@ -15,14 +20,10 @@ namespace BeeSweeper.Forms
         public Image VkLogo { get; private set; }
         public Image GithubLogo { get; private set; }
 
-
-        public Images()
+        private Image LoadImageFromAssets(string fileName)
         {
-            Load();
+            return Image.FromFile("Assets/Textures/" + fileName);
         }
-
-        private Image LoadImageFromAssets(string fileName) =>
-            Image.FromFile("Assets/Textures/" + fileName);
 
         public void Load()
         {
@@ -36,7 +37,6 @@ namespace BeeSweeper.Forms
             About = LoadImageFromAssets("about.png");
             VkLogo = LoadImageFromAssets("vk_logo.png");
             GithubLogo = LoadImageFromAssets("github_logo.png");
-
         }
     }
 }

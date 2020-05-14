@@ -8,13 +8,7 @@ namespace BeeSweeper.Architecture
 {
     public class Field
     {
-        public Cell[,] Map { get; set; }
-
         private readonly int _fillPercent;
-
-        public int TotalBees => Map.Length * _fillPercent / 100;
-        public int Width => Map.GetLength(0);
-        public int Height => Map.GetLength(1);
 
         public Field(Size size, int percent)
         {
@@ -22,14 +16,18 @@ namespace BeeSweeper.Architecture
             Map = new Cell[size.Width, size.Height];
             for (var x = 0; x < Width; x++)
             for (var y = 0; y < Height; y++)
-            {
                 Map[x, y] = new Cell();
-            }
         }
+
+        public Cell[,] Map { get; set; }
+
+        public int TotalBees => Map.Length * _fillPercent / 100;
+        public int Width => Map.GetLength(0);
+        public int Height => Map.GetLength(1);
 
         public Cell this[int x, int y] => Map[x, y];
         public Cell this[Point pos] => Map[pos.X, pos.Y];
-        
+
         public int CountNeighbouringBees(Point pos)
         {
             if (Map[pos.X, pos.Y].CellType == CellType.Bee)

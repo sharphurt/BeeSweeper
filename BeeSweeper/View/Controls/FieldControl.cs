@@ -9,16 +9,13 @@ namespace BeeSweeper.View.Controls
 {
     public class FieldControl : BaseControl
     {
-        private readonly Images _images = new Images();
         private readonly Fonts _fonts = new Fonts();
+        private readonly Images _images = new Images();
         private readonly GameModel _model;
         private Point? _cellUnderCursorLocation;
 
-        public new event Action MouseDown;
-        public new event Action MouseUp;
-
         public FieldControl(GameModel gameModel)
-        {          
+        {
             _model = gameModel;
             BackColor = Palette.Colors.FormBackground;
             var formWidth = Cell.CalculateVertices(new Point(gameModel.Level.Size.Width - 1, 1))[1].X;
@@ -28,30 +25,31 @@ namespace BeeSweeper.View.Controls
             gameModel.PrepareField();
         }
 
+        public new event Action MouseDown;
+        public new event Action MouseUp;
+
         private void DrawGrid(Graphics graphics)
         {
             var field = _model.Field;
 
             for (var x = 0; x < field.Width; x++)
+            for (var y = 0; y < field.Height; y++)
             {
-                for (var y = 0; y < field.Height; y++)
+                var cell = _model.Field[x, y];
+                switch (cell.CellAttr)
                 {
-                    var cell = _model.Field[x, y];
-                    switch (cell.CellAttr)
-                    {
-                        case CellAttr.Flagged:
-                            DrawImage(new Point(x, y), _images.Flag, Palette.Colors.UnrevealedColor, graphics);
-                            break;
-                        case CellAttr.Questioned:
-                            DrawImage(new Point(x, y), _images.Question, Palette.Colors.UnrevealedColor, graphics);
-                            break;
-                        case CellAttr.Opened:
-                            DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
-                            break;
-                        case CellAttr.None:
-                            DrawEmpty(new Point(x, y), Palette.Colors.UnrevealedColor, graphics);
-                            break;
-                    }
+                    case CellAttr.Flagged:
+                        DrawImage(new Point(x, y), _images.Flag, Palette.Colors.UnrevealedColor, graphics);
+                        break;
+                    case CellAttr.Questioned:
+                        DrawImage(new Point(x, y), _images.Question, Palette.Colors.UnrevealedColor, graphics);
+                        break;
+                    case CellAttr.Opened:
+                        DrawOpenedCell(new Point(x, y), cell.CellType, graphics);
+                        break;
+                    case CellAttr.None:
+                        DrawEmpty(new Point(x, y), Palette.Colors.UnrevealedColor, graphics);
+                        break;
                 }
             }
         }
@@ -84,7 +82,7 @@ namespace BeeSweeper.View.Controls
             DrawEmpty(pos, Palette.Colors.RevealedColor, graphics);
             var cell = _model.Field[pos].BeesAround;
             var textPos = Cell.CalculateTextPosition(pos);
-            graphics.DrawString(cell.ToString(), new Font(_fonts.Font, FontStyle.Bold), 
+            graphics.DrawString(cell.ToString(), new Font(_fonts.Font, FontStyle.Bold),
                 new SolidBrush(Palette.Colors.ColorsByNeighbouringBees[cell]), textPos.X, textPos.Y);
         }
 

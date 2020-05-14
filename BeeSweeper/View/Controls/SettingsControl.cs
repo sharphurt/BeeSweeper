@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
-using NUnit.Framework.Internal.Execution;
 
 namespace BeeSweeper.View.Controls
 {
     public class SettingsControl : BaseControl
     {
-        public static event Action ApplyButtonClick;
-        public static event Action CancelButtonClick;
-
         private readonly Fonts _fonts = new Fonts();
+        private readonly NumericUpDown _difficultyTb;
+        private readonly NumericUpDown _heightTb;
+        private readonly ComboBox _levelsList;
 
-        private NumericUpDown _widthTb;
-        private NumericUpDown _heightTb;
-        private NumericUpDown _difficultyTb;
-        private ComboBox _levelsList;
+        private readonly NumericUpDown _widthTb;
 
 
         public SettingsControl()
@@ -51,7 +45,7 @@ namespace BeeSweeper.View.Controls
                 FormattingEnabled = false,
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 FlatStyle = FlatStyle.Popup,
-                Font = new Font(_fonts.ButtonFont.FontFamily, 10),
+                Font = new Font(_fonts.ButtonFont.FontFamily, 10)
             };
 
             var widthLabel = new Label
@@ -84,7 +78,7 @@ namespace BeeSweeper.View.Controls
                 Text = "Height:"
             };
 
-            _heightTb = new NumericUpDown()
+            _heightTb = new NumericUpDown
             {
                 Font = new Font(_fonts.ButtonFont.FontFamily, 10),
                 Location = new Point(60, 82),
@@ -104,7 +98,7 @@ namespace BeeSweeper.View.Controls
                 Text = "Difficulty:"
             };
 
-            _difficultyTb = new NumericUpDown()
+            _difficultyTb = new NumericUpDown
             {
                 Font = new Font(_fonts.ButtonFont.FontFamily, 10),
                 Location = new Point(210, 35),
@@ -141,7 +135,7 @@ namespace BeeSweeper.View.Controls
                 Size = new Size(133, 40),
                 Text = "Cancel",
                 FlatStyle = FlatStyle.Flat,
-                UseVisualStyleBackColor = true,
+                UseVisualStyleBackColor = true
             };
 
             foreach (var level in Levels.LevelsByName)
@@ -171,6 +165,9 @@ namespace BeeSweeper.View.Controls
             _levelsList.Text = Levels.SelectedLevel.Name;
         }
 
+        public static event Action ApplyButtonClick;
+        public static event Action CancelButtonClick;
+
         private void OnLevelsListSelectedIndexChange(object sender, EventArgs eventArgs)
         {
             var level = Levels.LevelsByName[_levelsList.Text];
@@ -198,7 +195,7 @@ namespace BeeSweeper.View.Controls
         private void SetValuesFromCustomLevel()
         {
             SetValuesFromLevel(new Level("Custom", new Size(Levels.CustomLevelParametersByName["Width"],
-                    Levels.CustomLevelParametersByName["Height"]), Levels.CustomLevelParametersByName["Percent"]));
+                Levels.CustomLevelParametersByName["Height"]), Levels.CustomLevelParametersByName["Percent"]));
         }
 
         private Level GetLevelFromFields()

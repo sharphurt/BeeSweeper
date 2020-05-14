@@ -19,6 +19,20 @@ namespace BeeSweeper.Tests
         }
 
         [Test]
+        public void ChangeAttrTest()
+        {
+            var size = new Size(3, 3);
+            var model = new GameModel(new Level("", size, 0));
+            var checkedAttrs = new[] {CellAttr.Flagged, CellAttr.Questioned, CellAttr.None};
+            var testedPoint = new Point(1, 1);
+            foreach (var attr in checkedAttrs)
+            {
+                model.ChangeAttr(testedPoint);
+                Assert.AreEqual(model.Field[testedPoint].CellAttr, attr);
+            }
+        }
+
+        [Test]
         public void FinishGameOnEmptyFieldTest()
         {
             var model = new GameModel(new Level("", new Size(3, 3), 0));
@@ -130,21 +144,7 @@ namespace BeeSweeper.Tests
                 Assert.AreEqual(cell.Value, model.Field[cellLoc.X, cellLoc.Y].CellAttr);
             }
         }
-        
-        [Test]
-        public void ChangeAttrTest()
-        {
-            var size = new Size(3, 3);
-            var model = new GameModel(new Level("", size, 0));
-            var checkedAttrs = new [] { CellAttr.Flagged, CellAttr.Questioned, CellAttr.None };
-            var testedPoint = new Point(1, 1);
-            foreach (var attr in checkedAttrs)
-            {
-                model.ChangeAttr(testedPoint);
-                Assert.AreEqual(model.Field[testedPoint].CellAttr, attr);
-            }
-        }
-        
+
         [Test]
         public void ScoreTest1()
         {
@@ -155,7 +155,7 @@ namespace BeeSweeper.Tests
             model.OpenCell(new Point(0, 0));
             Assert.AreEqual(6, model.Score);
         }
-        
+
         [Test]
         public void ScoreTest2()
         {

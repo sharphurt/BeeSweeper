@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
@@ -11,22 +10,21 @@ namespace BeeSweeper.View.Controls
 {
     public class GameControl : BaseControl
     {
+        private const int HeaderHeight = GameSettings.CellRadius * 2;
+
+        public static readonly ToolStripButton MenuButton = new ToolStripButton("Menu");
+        private static Label _scoreLabel = new Label();
         private readonly Fonts _fonts = new Fonts();
         private readonly Images _images = new Images();
 
         private readonly GameModel _model;
-
-        private const int HeaderHeight = GameSettings.CellRadius * 2;
-        
-        public static readonly ToolStripButton MenuButton = new ToolStripButton("Menu");
-        private static Label _scoreLabel = new Label();
-        private Button _resetButton;
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
-        private Label _stopwatchLabel;
-        private FieldControl _fieldControl;
 
         private Point? _cellUnderCursorLocation;
+        private FieldControl _fieldControl;
+        private Button _resetButton;
+        private Label _stopwatchLabel;
 
 
         public GameControl(GameModel gameModel)
@@ -59,7 +57,7 @@ namespace BeeSweeper.View.Controls
                 Renderer = new ToolStripProfessionalRenderer(),
                 Dock = DockStyle.Top
             };
-            
+
             gameMenu.Items.Add(MenuButton);
 
             var infoPanel = new Panel

@@ -1,6 +1,4 @@
-﻿using BeeSweeper.View;
-
-namespace BeeSweeper.Architecture
+﻿namespace BeeSweeper.Architecture
 {
     public static class GameSettings
     {

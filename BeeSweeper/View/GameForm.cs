@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.View.Controls;
@@ -16,12 +15,12 @@ namespace BeeSweeper.View
             SetScene(new MenuControl());
 
             MenuControl.GameStartButtonClick += OnGameStartButtonClick;
-            MenuControl.SettingsButtonClick += OnSettingsButtonClick; 
+            MenuControl.SettingsButtonClick += OnSettingsButtonClick;
             MenuControl.AboutButtonClick += OnAboutButtonClick;
-            
+
             SettingsControl.ApplyButtonClick += OnCloseSettings;
             SettingsControl.CancelButtonClick += OnCloseSettings;
-            
+
             GameControl.MenuButton.Click += OnMenuButtonClick;
             AboutControl.BackButtonClick += OnBackButtonClick;
         }
@@ -40,8 +39,6 @@ namespace BeeSweeper.View
         private void SetScene(BaseControl newControl)
         {
             ClientSize = newControl.Size;
-            // foreach (Control control in Controls)
-            //     control.Dispose();
             Controls.Clear();
             Controls.Add(newControl);
         }

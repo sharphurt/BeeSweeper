@@ -7,21 +7,19 @@ namespace BeeSweeper.Architecture
 {
     public class GameModel
     {
-        public event Action<Winner> GameFinished;
-        public event Action GameStarted;
-        public event Action ScoreChanged;
+        public readonly Level Level;
 
         private bool _isFirstClick = true;
+        private int _score;
+
+        public Field Field;
+
+        public bool GameOver = true;
 
         public GameModel(Level level)
         {
             Level = level;
         }
-
-        public readonly Level Level;
-
-        public Field Field;
-        private int _score;
 
         public int Score
         {
@@ -33,18 +31,17 @@ namespace BeeSweeper.Architecture
             }
         }
 
-        public Winner Winner
-        {
-            get; private set;
-        }
+        public Winner Winner { get; private set; }
 
-        public bool GameOver = true;
+        public event Action<Winner> GameFinished;
+        public event Action GameStarted;
+        public event Action ScoreChanged;
 
         public void OpenCell(Point pos)
         {
             RegenerateFieldIfNecessary(pos);
             Field.OpenEmptyArea(pos, out var collectedScore);
-            Score += collectedScore;          
+            Score += collectedScore;
             CheckForGameOver(pos);
         }
 
@@ -103,7 +100,8 @@ namespace BeeSweeper.Architecture
         {
             if (Field[pos].CellType == CellType.Bee)
                 return Winner.Computer;
-            if (Field.Map.Cast<Cell>().Where(c => c.CellType != CellType.Bee).All(cell => cell.CellAttr == CellAttr.Opened))
+            if (Field.Map.Cast<Cell>().Where(c => c.CellType != CellType.Bee)
+                .All(cell => cell.CellAttr == CellAttr.Opened))
                 return Winner.Player;
             return Winner.Nobody;
         }

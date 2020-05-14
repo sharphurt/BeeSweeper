@@ -7,7 +7,7 @@ namespace BeeSweeper.View
     {
         public static class Colors
         {
-            public static Color UnrevealedColor = Color.FromArgb(200,200,200);
+            public static Color UnrevealedColor = Color.FromArgb(200, 200, 200);
             public static Color RevealedColor = Color.FromArgb(255, 255, 255);
             public static Color InterfaceBackgroundColor = Color.White;
             public static Color FormBackground = Color.White;
@@ -24,7 +24,7 @@ namespace BeeSweeper.View
                 {6, Color.DarkOrange}
             };
         }
-        
+
         public static class Pens
         {
             public static Pen OutlinePen = new Pen(Colors.OutlineColor, 2);

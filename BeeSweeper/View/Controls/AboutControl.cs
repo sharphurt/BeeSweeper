@@ -1,19 +1,17 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.Forms;
-using NUnit.Framework.Internal.Execution;
 
 namespace BeeSweeper.View.Controls
 {
     public class AboutControl : BaseControl
     {
-        public static event Action BackButtonClick;
+        private readonly Fonts _fonts = new Fonts();
 
         private readonly Images _images = new Images();
-        private readonly Fonts _fonts = new Fonts();
 
         public AboutControl()
         {
@@ -32,7 +30,7 @@ namespace BeeSweeper.View.Controls
                 ForeColor = Palette.Colors.TextColor,
                 BackColor = Palette.Colors.FormBackground
             };
-            
+
             var backButton = new Button
             {
                 Size = buttonSize,
@@ -65,9 +63,11 @@ namespace BeeSweeper.View.Controls
             Controls.Add(backButton);
             Controls.Add(nameLabel);
 
-            vkLink.Click += (sender, args) => { System.Diagnostics.Process.Start(GameSettings.VkLink); };
-            githubLink.Click += (sender, args) => { System.Diagnostics.Process.Start(GameSettings.GithubLink); };
+            vkLink.Click += (sender, args) => { Process.Start(GameSettings.VkLink); };
+            githubLink.Click += (sender, args) => { Process.Start(GameSettings.GithubLink); };
             backButton.Click += (sender, args) => { BackButtonClick?.Invoke(); };
         }
+
+        public static event Action BackButtonClick;
     }
 }

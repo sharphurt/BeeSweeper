@@ -7,11 +7,6 @@ namespace BeeSweeper.View.Controls
 {
     public class MenuControl : BaseControl
     {
-        public static event Action GameStartButtonClick;
-        public static event Action SettingsButtonClick;
-        public static event Action AboutButtonClick;
-
-
         private readonly Fonts _fonts = new Fonts();
 
 
@@ -71,5 +66,9 @@ namespace BeeSweeper.View.Controls
             settingsButton.Click += (sender, args) => { SettingsButtonClick?.Invoke(); };
             aboutButton.Click += (sender, args) => { AboutButtonClick?.Invoke(); };
         }
+
+        public static event Action GameStartButtonClick;
+        public static event Action SettingsButtonClick;
+        public static event Action AboutButtonClick;
     }
 }

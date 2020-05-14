@@ -7,10 +7,9 @@ namespace BeeSweeper.View
 {
     public class Fonts
     {
-        public Font Font;
-        public Font ButtonFont;
-
         private readonly PrivateFontCollection fontCollection = new PrivateFontCollection();
+        public Font ButtonFont;
+        public Font Font;
 
         public Fonts()
         {

@@ -25,10 +25,14 @@ namespace BeeSweeper.Architecture
             }
         }
 
-        public static bool IsLocationValid(Point pos, Size bounds) =>
-            pos.X >= 0 && pos.X < bounds.Width && pos.Y >= 0 && pos.Y < bounds.Height;
+        public static bool IsLocationValid(Point pos, Size bounds)
+        {
+            return pos.X >= 0 && pos.X < bounds.Width && pos.Y >= 0 && pos.Y < bounds.Height;
+        }
 
-        public static Point DirToNeighbourPos(Point pos, Direction direction) =>
-            pos + DirToOffsets(direction, pos.Y % 2 == 0);
+        public static Point DirToNeighbourPos(Point pos, Direction direction)
+        {
+            return pos + DirToOffsets(direction, pos.Y % 2 == 0);
+        }
     }
 }
