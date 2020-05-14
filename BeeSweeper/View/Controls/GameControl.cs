@@ -14,16 +14,16 @@ namespace BeeSweeper.View.Controls
         private readonly Fonts _fonts = new Fonts();
         private readonly Images _images = new Images();
 
-        private GameModel _model;
+        private readonly GameModel _model;
 
         private const int HeaderHeight = GameSettings.CellRadius * 2;
+        
         public static readonly ToolStripButton MenuButton = new ToolStripButton("Menu");
-        public static readonly ToolStripButton AboutButton = new ToolStripButton("About");
         private static Label _scoreLabel = new Label();
         private Button _resetButton;
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
-        public Label StopwatchLabel;
+        private readonly Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
+        private Label _stopwatchLabel;
         private FieldControl _fieldControl;
 
         private Point? _cellUnderCursorLocation;
@@ -59,16 +59,8 @@ namespace BeeSweeper.View.Controls
                 Renderer = new ToolStripProfessionalRenderer(),
                 Dock = DockStyle.Top
             };
-
-            // aboutButton.Click += (sender, args) =>
-            // {
-            //     form.Enabled = false;
-            //     var propertiesForm = new PropertiesForm();
-            //     propertiesForm.Show(form);
-            // };
-
+            
             gameMenu.Items.Add(MenuButton);
-            gameMenu.Items.Add(AboutButton);
 
             var infoPanel = new Panel
             {
@@ -94,7 +86,7 @@ namespace BeeSweeper.View.Controls
 
             infoPanel.Controls.Add(_resetButton);
 
-            StopwatchLabel = new Label
+            _stopwatchLabel = new Label
             {
                 Size = new Size(Size.Width / 2, buttonSize.Height),
                 Location = new Point(5, (HeaderHeight - _fonts.Font.Height) / 2),
@@ -117,7 +109,7 @@ namespace BeeSweeper.View.Controls
             };
 
             infoPanel.Controls.Add(_scoreLabel);
-            infoPanel.Controls.Add(StopwatchLabel);
+            infoPanel.Controls.Add(_stopwatchLabel);
 
 
             Controls.Add(_fieldControl);
@@ -144,7 +136,7 @@ namespace BeeSweeper.View.Controls
 
         private void OnUpdateControl(object sender, ElapsedEventArgs elapsedEventArgs)
         {
-            StopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes:d2}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
+            _stopwatchLabel.Text = $@"{_stopwatch.Elapsed.Minutes:d2}:" + $@"{_stopwatch.Elapsed.Seconds:d2}";
         }
 
         private void OnGameFinished(Winner winner)

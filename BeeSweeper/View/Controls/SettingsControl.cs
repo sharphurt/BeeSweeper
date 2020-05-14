@@ -128,7 +128,7 @@ namespace BeeSweeper.View.Controls
             {
                 Font = new Font(_fonts.ButtonFont.FontFamily, 10, FontStyle.Bold),
                 Location = new Point(55, 225),
-                Size = new Size(133, 39),
+                Size = new Size(133, 40),
                 Text = "Apply",
                 FlatStyle = FlatStyle.Flat,
                 UseVisualStyleBackColor = true
@@ -138,7 +138,7 @@ namespace BeeSweeper.View.Controls
             {
                 Font = new Font(_fonts.ButtonFont.FontFamily, 10),
                 Location = new Point(209, 225),
-                Size = new Size(133, 39),
+                Size = new Size(133, 40),
                 Text = "Cancel",
                 FlatStyle = FlatStyle.Flat,
                 UseVisualStyleBackColor = true,

@@ -11,6 +11,10 @@ namespace BeeSweeper.Forms
         public Image Luck { get; private set; }
         public Image Please { get; private set; }
         public Image Win { get; private set; }
+        public Image About { get; private set; }
+        public Image VkLogo { get; private set; }
+        public Image GithubLogo { get; private set; }
+
 
         public Images()
         {
@@ -29,6 +33,10 @@ namespace BeeSweeper.Forms
             Luck = LoadImageFromAssets("luck.png");
             Please = LoadImageFromAssets("please.png");
             Win = LoadImageFromAssets("win.png");
+            About = LoadImageFromAssets("about.png");
+            VkLogo = LoadImageFromAssets("vk_logo.png");
+            GithubLogo = LoadImageFromAssets("github_logo.png");
+
         }
     }
 }

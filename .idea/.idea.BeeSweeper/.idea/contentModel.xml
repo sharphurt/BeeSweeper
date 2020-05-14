@@ -26,6 +26,7 @@
             <e p="timer_font.ttf" t="Include" />
           </e>
           <e p="Textures" t="Include">
+            <e p="about.png" t="Include" />
             <e p="bee.png" t="Include" />
             <e p="Digits" t="Include">
               <e p="0.png" t="Include" />
@@ -43,9 +44,11 @@
             </e>
             <e p="flag.png" t="Include" />
             <e p="gameover.png" t="Include" />
+            <e p="github_logo.png" t="Include" />
             <e p="luck.png" t="Include" />
             <e p="please.png" t="Include" />
             <e p="question.png" t="Include" />
+            <e p="vk_logo.png" t="Include" />
             <e p="win.png" t="Include" />
           </e>
         </e>
@@ -67,6 +70,7 @@
         <e p="View" t="Include">
           <e p="CellByLocation.cs" t="Include" />
           <e p="Controls" t="Include">
+            <e p="AboutControl.cs" t="Include" />
             <e p="BaseControl.cs" t="Include" />
             <e p="FieldControl.cs" t="Include" />
             <e p="GameControl.cs" t="Include" />

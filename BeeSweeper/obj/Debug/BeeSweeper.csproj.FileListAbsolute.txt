@@ -31,3 +31,6 @@ C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\win.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\question.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Fonts\timer_font.ttf
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Fonts\ProximaNova-Regular.ttf
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\about.png
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\github_logo.png
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Debug\Assets\Textures\vk_logo.png

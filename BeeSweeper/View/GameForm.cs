@@ -16,10 +16,14 @@ namespace BeeSweeper.View
             SetScene(new MenuControl());
 
             MenuControl.GameStartButtonClick += OnGameStartButtonClick;
-            MenuControl.SettingsButtonClick += OnSettingsButtonClick;
+            MenuControl.SettingsButtonClick += OnSettingsButtonClick; 
+            MenuControl.AboutButtonClick += OnAboutButtonClick;
+            
             SettingsControl.ApplyButtonClick += OnCloseSettings;
             SettingsControl.CancelButtonClick += OnCloseSettings;
+            
             GameControl.MenuButton.Click += OnMenuButtonClick;
+            AboutControl.BackButtonClick += OnBackButtonClick;
         }
 
         public void InitializeForm()
@@ -57,14 +61,22 @@ namespace BeeSweeper.View
 
         private void OnSettingsButtonClick()
         {
-            var gameControl = new SettingsControl();
-            SetScene(gameControl);
+            SetScene(new SettingsControl());
         }
 
         private void OnCloseSettings()
         {
-            var menuControl = new MenuControl();
-            SetScene(menuControl);
+            SetScene(new MenuControl());
+        }
+
+        private void OnAboutButtonClick()
+        {
+            SetScene(new AboutControl());
+        }
+
+        private void OnBackButtonClick()
+        {
+            SetScene(new MenuControl());
         }
     }
 }

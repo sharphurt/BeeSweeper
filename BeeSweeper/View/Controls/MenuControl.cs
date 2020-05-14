@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
-using NUnit.Framework.Internal.Execution;
 
 namespace BeeSweeper.View.Controls
 {
@@ -11,6 +9,8 @@ namespace BeeSweeper.View.Controls
     {
         public static event Action GameStartButtonClick;
         public static event Action SettingsButtonClick;
+        public static event Action AboutButtonClick;
+
 
         private readonly Fonts _fonts = new Fonts();
 
@@ -42,14 +42,14 @@ namespace BeeSweeper.View.Controls
                 FlatStyle = FlatStyle.Flat
             };
 
-            var exitButton = new Button
+            var aboutButton = new Button
             {
                 Size = buttonSize,
                 Location = new Point(
                     (Size.Width - buttonSize.Width) / 2,
                     (Size.Height - buttonSize.Height) / 2 + buttonSize.Height + 40),
                 Font = _fonts.ButtonFont,
-                Text = "Exit",
+                Text = "About",
                 FlatStyle = FlatStyle.Flat
             };
 
@@ -60,15 +60,16 @@ namespace BeeSweeper.View.Controls
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font(_fonts.Font.FontFamily, 30f, FontStyle.Bold),
                 Text = GameSettings.GameName,
-                ForeColor = Color.Black
+                ForeColor = Palette.Colors.TextColor
             };
             Controls.Add(startButton);
             Controls.Add(settingsButton);
-            Controls.Add(exitButton);
+            Controls.Add(aboutButton);
             Controls.Add(nameLabel);
 
             startButton.Click += (sender, args) => { GameStartButtonClick?.Invoke(); };
             settingsButton.Click += (sender, args) => { SettingsButtonClick?.Invoke(); };
+            aboutButton.Click += (sender, args) => { AboutButtonClick?.Invoke(); };
         }
     }
 }

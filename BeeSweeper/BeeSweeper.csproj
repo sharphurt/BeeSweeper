@@ -64,6 +64,7 @@
         <Compile Include="Architecture\Util.cs" />
         <Compile Include="Architecture\Winner.cs" />
         <Compile Include="View\CellByLocation.cs" />
+        <Compile Include="View\Controls\AboutControl.cs" />
         <Compile Include="View\Controls\SettingsControl.cs" />
         <Compile Include="View\Fonts.cs" />
         <Compile Include="View\GameForm.cs" />
@@ -167,6 +168,19 @@
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Include="Assets\Fonts\ProximaNova-Regular.ttf">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Textures\about.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Include="Assets\Textures\github_logo.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <EmbeddedResource Include="Assets\Textures\vk_logo.png">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
     </ItemGroup>
