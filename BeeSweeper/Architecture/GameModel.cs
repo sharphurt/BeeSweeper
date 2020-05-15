@@ -64,6 +64,7 @@ namespace BeeSweeper.Architecture
             Winner = Winner.Nobody;
             Score = 0;
             GameOver = false;
+            _isFirstClick = true;
             GameStarted?.Invoke();
         }
 

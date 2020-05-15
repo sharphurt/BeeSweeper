@@ -42,8 +42,6 @@ namespace BeeSweeper.View.Controls
             _model.GameFinished += OnGameFinished;
             _model.GameStarted += OnGameStarted;
             gameModel.ScoreChanged += OnScoreChange;
-            Messages.Push(new GameMessage("Game over! "  + "won", "Game over!", MessageBoxButtons.OK,
-                MessageBoxIcon.None));
         }
 
         private void InitializeControls()
@@ -143,8 +141,13 @@ namespace BeeSweeper.View.Controls
         {
             _stopwatch.Stop();
             SetButtonGameOverIcon(winner);
-            Messages.Push(new GameMessage("Game over! " + winner + "won", "Game over!", MessageBoxButtons.OK,
-                MessageBoxIcon.None));
+            lock (Messages)
+                if (winner == Winner.Player)
+                    Messages.Push(new GameMessage("Congratulations! You won with score: " + _model.Score,
+                            "Game over!", MessageBoxButtons.OK, MessageBoxIcon.None));
+                else if (winner == Winner.Computer)
+                    Messages.Push(new GameMessage("Oops! You lose ;( Collected score: " + _model.Score,
+                        "Game over!", MessageBoxButtons.OK, MessageBoxIcon.None));
         }
 
         private void OnGameStarted()

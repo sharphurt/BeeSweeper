@@ -86,10 +86,14 @@ namespace BeeSweeper.View
         {
             while (true)
             {
-                if (_currentControl.Messages.Count > 0)
-                    _currentControl.Messages.Pop().Show();
+                lock (_currentControl.Messages)
+                {
+                    if (_currentControl.Messages.Count > 0)
+                        _currentControl.Messages.Pop().Show();
+                    
+                }
 
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
     }
