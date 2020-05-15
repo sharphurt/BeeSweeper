@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Timers;
 using System.Windows.Forms;
@@ -26,7 +27,6 @@ namespace BeeSweeper.View.Controls
         private Button _resetButton;
         private Label _stopwatchLabel;
 
-
         public GameControl(GameModel gameModel)
         {
             _model = gameModel;
@@ -42,6 +42,8 @@ namespace BeeSweeper.View.Controls
             _model.GameFinished += OnGameFinished;
             _model.GameStarted += OnGameStarted;
             gameModel.ScoreChanged += OnScoreChange;
+            Messages.Push(new GameMessage("Game over! "  + "won", "Game over!", MessageBoxButtons.OK,
+                MessageBoxIcon.None));
         }
 
         private void InitializeControls()
@@ -141,7 +143,8 @@ namespace BeeSweeper.View.Controls
         {
             _stopwatch.Stop();
             SetButtonGameOverIcon(winner);
-            MessageBox.Show("Game over. Winner: " + winner, "Game over", MessageBoxButtons.OK, MessageBoxIcon.None);
+            Messages.Push(new GameMessage("Game over! " + winner + "won", "Game over!", MessageBoxButtons.OK,
+                MessageBoxIcon.None));
         }
 
         private void OnGameStarted()

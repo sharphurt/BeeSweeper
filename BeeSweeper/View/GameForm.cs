@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
 using BeeSweeper.View.Controls;
@@ -8,6 +9,7 @@ namespace BeeSweeper.View
     public class GameForm : Form
     {
         private GameModel _model;
+        private IControl _currentControl;
 
         public GameForm()
         {
@@ -23,6 +25,9 @@ namespace BeeSweeper.View
 
             GameControl.MenuButton.Click += OnMenuButtonClick;
             AboutControl.BackButtonClick += OnBackButtonClick;
+
+            var thread = new Thread(o => ShowMessagesIfExists());
+            thread.Start();
         }
 
         public void InitializeForm()
@@ -41,6 +46,7 @@ namespace BeeSweeper.View
             ClientSize = newControl.Size;
             Controls.Clear();
             Controls.Add(newControl);
+            _currentControl = newControl;
         }
 
         private void OnMenuButtonClick(object sender, EventArgs eventArgs)
@@ -74,6 +80,17 @@ namespace BeeSweeper.View
         private void OnBackButtonClick()
         {
             SetScene(new MenuControl());
+        }
+
+        private void ShowMessagesIfExists()
+        {
+            while (true)
+            {
+                if (_currentControl.Messages.Count > 0)
+                    _currentControl.Messages.Pop().Show();
+
+                Thread.Sleep(500);
+            }
         }
     }
 }

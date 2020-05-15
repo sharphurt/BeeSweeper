@@ -8,8 +8,6 @@ namespace BeeSweeper.View.Controls
     public class MenuControl : BaseControl
     {
         private readonly Fonts _fonts = new Fonts();
-
-
         public MenuControl()
         {
             BackColor = Color.White;

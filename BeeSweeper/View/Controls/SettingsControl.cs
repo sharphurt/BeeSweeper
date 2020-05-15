@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
@@ -10,10 +11,8 @@ namespace BeeSweeper.View.Controls
         private readonly Fonts _fonts = new Fonts();
         private readonly NumericUpDown _difficultyTb;
         private readonly NumericUpDown _heightTb;
-        private readonly ComboBox _levelsList;
-
         private readonly NumericUpDown _widthTb;
-
+        private readonly ComboBox _levelsList;
 
         public SettingsControl()
         {

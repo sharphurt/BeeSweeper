@@ -74,11 +74,13 @@
             <e p="BaseControl.cs" t="Include" />
             <e p="FieldControl.cs" t="Include" />
             <e p="GameControl.cs" t="Include" />
+            <e p="IControl.cs" t="Include" />
             <e p="MenuControl.cs" t="Include" />
             <e p="SettingsControl.cs" t="Include" />
           </e>
           <e p="Fonts.cs" t="Include" />
           <e p="GameForm.cs" t="Include" />
+          <e p="GameMessage.cs" t="Include" />
           <e p="Images.cs" t="Include" />
           <e p="Palette.cs" t="Include" />
         </e>

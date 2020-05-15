@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using BeeSweeper.Architecture;
 
 namespace BeeSweeper.View.Controls
 {
-    public abstract class BaseControl : UserControl
+    public abstract class BaseControl : UserControl, IControl
     {
-        public Size Size;
+        public Stack<GameMessage> Messages { get; }
 
-        public BaseControl()
+        protected BaseControl()
         {
+            Messages = new Stack<GameMessage>();
             Dock = DockStyle.Fill;
             DoubleBuffered = true;
         }

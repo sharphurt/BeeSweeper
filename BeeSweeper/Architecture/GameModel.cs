@@ -100,8 +100,8 @@ namespace BeeSweeper.Architecture
         {
             if (Field[pos].CellType == CellType.Bee)
                 return Winner.Computer;
-            if (Field.Map.Cast<Cell>().Where(c => c.CellType != CellType.Bee)
-                .All(cell => cell.CellAttr == CellAttr.Opened))
+            var map = Field.Map.Cast<Cell>().ToList();
+            if (map.Where(c=> c.CellType == CellType.Bee).All(c=> c.CellAttr == CellAttr.Flagged))
                 return Winner.Player;
             return Winner.Nobody;
         }
