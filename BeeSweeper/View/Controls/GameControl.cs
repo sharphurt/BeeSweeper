@@ -22,7 +22,6 @@ namespace BeeSweeper.View.Controls
         private readonly Stopwatch _stopwatch = new Stopwatch();
         private readonly Timer _updater = new Timer(1000 / GameSettings.TicksPerSecond);
 
-        private Point? _cellUnderCursorLocation;
         private FieldControl _fieldControl;
         private Button _resetButton;
         private Label _stopwatchLabel;
