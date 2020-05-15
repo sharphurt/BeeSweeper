@@ -11,7 +11,7 @@ namespace BeeSweeper.View.Controls
 {
     public class GameControl : BaseControl
     {
-        private const int HeaderHeight = GameSettings.CellRadius * 2;
+        private static readonly int HeaderHeight = GameSettings.CellRadius * 2;
 
         public static readonly ToolStripButton MenuButton = new ToolStripButton("Menu");
         private static Label _scoreLabel = new Label();
@@ -86,7 +86,8 @@ namespace BeeSweeper.View.Controls
             _stopwatchLabel = new Label
             {
                 Size = new Size(Size.Width / 2, buttonSize.Height),
-                Location = new Point(5, (HeaderHeight - _fonts.Font.Height) / 2),
+                // Location = new Point(5, (HeaderHeight - _fonts.Font.Height) / 2),
+                Dock = DockStyle.Left,
                 TextAlign = ContentAlignment.MiddleLeft,
                 BackColor = Palette.Colors.InterfaceBackgroundColor,
                 ForeColor = Palette.Colors.TextColor,
@@ -97,7 +98,8 @@ namespace BeeSweeper.View.Controls
             _scoreLabel = new Label
             {
                 Size = new Size(Size.Width / 2, buttonSize.Height),
-                Location = new Point(Size.Width / 2, (HeaderHeight - _fonts.Font.Height) / 2),
+                // Location = new Point(Size.Width / 2, (HeaderHeight - _fonts.Font.Height) / 2),
+                Dock = DockStyle.Right,
                 TextAlign = ContentAlignment.MiddleRight,
                 BackColor = Palette.Colors.InterfaceBackgroundColor,
                 ForeColor = Palette.Colors.TextColor,

@@ -158,6 +158,7 @@ namespace BeeSweeper.View.Controls
             _widthTb.ValueChanged += (sender, args) => { OnLevelParameterChange(_widthTb); };
             _heightTb.ValueChanged += (sender, args) => { OnLevelParameterChange(_heightTb); };
             _difficultyTb.ValueChanged += (sender, args) => { OnLevelParameterChange(_difficultyTb); };
+
             applyButton.Click += OnApplyButtonClick;
             cancelButton.Click += OnCancelButtonClick;
 
