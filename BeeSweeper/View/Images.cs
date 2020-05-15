@@ -19,7 +19,8 @@ namespace BeeSweeper.Forms
         public Image About { get; private set; }
         public Image VkLogo { get; private set; }
         public Image GithubLogo { get; private set; }
-
+        public Icon FormIcon { get; private set; }
+        
         private Image LoadImageFromAssets(string fileName)
         {
             return Image.FromFile("Assets/Textures/" + fileName);
@@ -37,6 +38,7 @@ namespace BeeSweeper.Forms
             About = LoadImageFromAssets("about.png");
             VkLogo = LoadImageFromAssets("vk_logo.png");
             GithubLogo = LoadImageFromAssets("github_logo.png");
+            FormIcon = Icon.ExtractAssociatedIcon("icon.ico");
         }
     }
 }

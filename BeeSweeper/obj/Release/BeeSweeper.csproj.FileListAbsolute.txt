@@ -1,16 +1,4 @@
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\bee.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\0.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\1.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\2.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\3.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\4.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\5.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\6.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\7.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\8.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\9.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\semicolon.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\Digits\semicolon_.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\flag.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\gameover.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\luck.png
@@ -20,7 +8,6 @@ C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\question.pn
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\about.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\github_logo.png
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Textures\vk_logo.png
-C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Fonts\timer_font.ttf
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\Assets\Fonts\ProximaNova-Regular.ttf
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\BeeSweeper.exe.config
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\BeeSweeper.exe
@@ -34,3 +21,4 @@ C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Release\BeeSweeper.csproj.GenerateR
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Release\BeeSweeper.csproj.CopyComplete
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Release\BeeSweeper.exe
 C:\Users\sharphurt\BeeSweeper\BeeSweeper\obj\Release\BeeSweeper.pdb
+C:\Users\sharphurt\BeeSweeper\BeeSweeper\bin\Release\icon.ico

@@ -142,6 +142,7 @@ namespace BeeSweeper.View.Controls
                 _model.OpenCell(_cellUnderCursorLocation.Value);
             else if (e.Button == MouseButtons.Right && _cellUnderCursorLocation.HasValue)
                 _model.ChangeAttr(_cellUnderCursorLocation.Value);
+            Invalidate();
         }
     }
 }

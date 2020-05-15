@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Windows.Forms;
 using BeeSweeper.Architecture;
+using BeeSweeper.Forms;
 using BeeSweeper.View.Controls;
 
 namespace BeeSweeper.View
@@ -10,6 +11,7 @@ namespace BeeSweeper.View
     {
         private GameModel _model;
         private IControl _currentControl;
+        private Images _images = new Images();
 
         public GameForm()
         {
@@ -38,6 +40,7 @@ namespace BeeSweeper.View
             Text = GameSettings.GameName;
             MaximizeBox = false;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = _images.FormIcon;
         }
 
 
@@ -90,7 +93,6 @@ namespace BeeSweeper.View
                 {
                     if (_currentControl.Messages.Count > 0)
                         _currentControl.Messages.Pop().Show();
-                    
                 }
 
                 Thread.Sleep(100);

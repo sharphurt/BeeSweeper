@@ -23,25 +23,10 @@
         <e p="Assets" t="Include">
           <e p="Fonts" t="Include">
             <e p="ProximaNova-Regular.ttf" t="Include" />
-            <e p="timer_font.ttf" t="Include" />
           </e>
           <e p="Textures" t="Include">
             <e p="about.png" t="Include" />
             <e p="bee.png" t="Include" />
-            <e p="Digits" t="Include">
-              <e p="0.png" t="Include" />
-              <e p="1.png" t="Include" />
-              <e p="2.png" t="Include" />
-              <e p="3.png" t="Include" />
-              <e p="4.png" t="Include" />
-              <e p="5.png" t="Include" />
-              <e p="6.png" t="Include" />
-              <e p="7.png" t="Include" />
-              <e p="8.png" t="Include" />
-              <e p="9.png" t="Include" />
-              <e p="semicolon.png" t="Include" />
-              <e p="semicolon_.png" t="Include" />
-            </e>
             <e p="flag.png" t="Include" />
             <e p="gameover.png" t="Include" />
             <e p="github_logo.png" t="Include" />
@@ -54,6 +39,7 @@
         </e>
         <e p="BeeSweeper.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="icon.ico" t="Include" />
         <e p="obj" t="ExcludeRecursive" />
         <e p="packages.config" t="Include" />
         <e p="Program.cs" t="Include" />
